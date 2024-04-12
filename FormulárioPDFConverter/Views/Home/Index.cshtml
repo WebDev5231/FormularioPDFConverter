@@ -1,0 +1,290 @@
+﻿@model FormulárioPDFConverter.Models.Cadastro
+
+@{
+    ViewBag.Title = "Ficha de Inscrição";
+}
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.maskMoney').mask('R$ 000.000.000,00', { reverse: true });
+    });
+</script>
+
+<style>
+    body {
+        background: #fff8ef;
+    }
+
+    .card {
+        padding: 30px 30px;
+        margin-top: 10px;
+        box-shadow: 0 6px 50px 0 rgba(0,0,0,0.2);
+    }
+
+    .form-control-label {
+        margin-bottom: 0;
+    }
+
+    input, textarea, button {
+        padding: 8px 15px;
+        border-radius: 5px !important;
+        margin: 5px 0px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        font-size: 18px !important;
+        font-weight: 300;
+    }
+</style>
+
+<div style="font-size:15px;">
+    <h2 class="text-center"><b><u>FICHA DE INSCRIÇÃO</u></b></h2>
+    <div class="card">
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <div class="row" style="font-size: 17px;">
+                        <div class="form-check col-md-2">
+                            <label class="form-control-label"><b>Categoria: </b></label>
+                        </div>
+                        <div class="form-check col-md-3">
+                            @*<input class="form-check-input" type="radio" id="fabricante" name="categoria" value="FABRICANTE" @(ViewBag.Categoria == "FABRICANTE" ? "checked disabled" : "disabled")>*@
+                            @Html.RadioButtonFor(m => m.Categoria, "FABRICANTE", new { @class = "form-check-input", id = "fabricante", disabled = Model.CategoriaDesabilitada })
+                            <label class="form-check-label" for="fabricante"><b>Fabricante</b></label>
+                        </div>
+                        <div class="form-check col-md-3">
+                            @Html.RadioButtonFor(m => m.Categoria, "SISTEMISTA", new { @class = "form-check-input", id = "sistemista", disabled = Model.CategoriaDesabilitada })
+                            <label class="form-check-label" for="sistemista"><b>Sistemista</b></label>
+                        </div>
+                        <div class="form-check col-md-3">
+                            @Html.RadioButtonFor(m => m.Categoria, "COMPONENTES", new { @class = "form-check-input", id = "componentes", disabled = Model.CategoriaDesabilitada })
+                            <label class="form-check-label" for="componentes"><b>Componentes</b></label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12">
+                    <label class="form-control-label"><b>Razão Social</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Razao, new { @class = "form-control col-md-12", @placeholder = "Informe a Razão Social" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                    <label class="form-control-label"><b>CNPJ</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control col-md-12", @placeholder = "Informe o CNPJ" })
+                </div>
+                <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                    <label class="form-control-label"><b>Inscrição na Junta Comercial</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.InscricaoJuntaComercial, new { @class = "form-control col-md-12", @placeholder = "Inscrição na Junta Comercial" })
+                </div>
+                <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                    <label class="form-control-label"><b>Data da Incrição</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.DataInscricaoJuntaComercial, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Data da Incrição" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-8">
+                    <label class="form-control-label"><b>Endereço</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Endereco, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Endereço" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Complemento</b></label>
+                    @Html.TextBoxFor(m => m.Complemento, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o Complemento" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>CEP</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Cep, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o CEP" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Bairro</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Bairro, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o bairro" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Cidade</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control col-md-12", @placeholder = "Informe a Cidade" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Estado</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Estado, new { @class = "form-control col-md-12", @placeholder = "Informe o Estado" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"><b>Site</b></label>
+                    @Html.TextBoxFor(m => m.Site, new { @class = "form-control col-md-12", @placeholder = "Informe o Site" })
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label"><b>E-mail</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail" })
+                </div>
+            </div>
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label"><b>Porte da Empresa</b><span class="text-danger"> *</span></label>
+                    <div class="row" style="margin-left: 0%;">
+                        @Html.DropDownListFor(m => m.PorteEmpresaSelecionado, Model.PortesEmpresa, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Número de Funcionários</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.quant_funcio, new { @class = "form-control col-md-12", @placeholder = "Número de Funcionários" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Faturamento anual R$: </b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.faturamentoAnual, new { @class = "form-control col-md-12 maskMoney", @placeholder = "R$" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Data de fundação </b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.DataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Telefone Principal </b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control col-md-12", @placeholder = "Telefone" })
+                </div>
+            </div>
+            <p></p>
+
+            <!-- #REGION REPRESENTANTES 1 -->
+            <h3 class="text-center"><b><u>REPRESENTANTES LEGAIS</u></b></h3>
+
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" style="font-size: 18px;"><b>Representante Legal 1</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.representanteLegal1, new { @class = "form-control col-md-12", @placeholder = "Representante Legal 1" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>CPF</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.cpfRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o CPF" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>RG</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.rgRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o RG" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Data de Expedição</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.dataExpedicaoRepresentante1, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Informe a data da expedição" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Telefone</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.telefoneRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe a data da expedição" })
+                </div>
+                <div class="form-group col-md-5">
+                    <label class="form-control-label"><b>Email</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.emailRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o email" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Função/Cargo</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.cargoRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe a função ou cargo" })
+                </div>
+            </div>
+
+            <p></p>
+
+            <!-- #REGION REPRESENTANTE 2 -->
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" style="font-size: 18px;"><b>Representante Legal 2</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.representanteLegal2, new { @class = "form-control col-md-12", @placeholder = "Nome do representante legal" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>CPF</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.cpfRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o CPF" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>RG</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.rgRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o RG" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Data de Expedição</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.dataExpedicaoRepresentante2, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Informe a data de expedição" })
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Telefone</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.telefoneRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o telefone" })
+                </div>
+                <div class="form-group col-md-5">
+                    <label class="form-control-label"><b>Email</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.emailRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Função/Cargo</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.cargoRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe a função ou cargo" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Cidade</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.cidadeRepresentantes, new { @class = "form-control col-md-12", @placeholder = "Informe a cidade" })
+                </div>
+                <div class="form-group col-md-4">
+                    <label class="form-control-label"><b>Data Representantes</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.dataRepresentantes, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano" })
+                </div>
+            </div>
+
+            <br />
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <h5><b>DECLARAÇÃO</b></h5>
+                    <p>
+                        <b>
+                            Declaro, para os devidos fins, que estou ciente das condições para ingresso na Associação Nacional dos Fabricantes de Implementos Rodovíarios - ANFIR,
+                            descritas em seu Estatuto Social, ao qual tive acesso, bem como dos direitos e obrigações por mim assumidos a partir da assinatura ao final deste instrumento.
+                        </b>
+                    </p>
+                </div>
+            </div>
+
+            <br />
+            <div class="row" style="text-align:center;">
+                <div class="form-group col-md-12" style="margin-left:29%;">
+                    <label class="form-control-label"><b>_____________________,_______ de ___________________ de 2024</b></label>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <br />
+            <div class="row" style="text-align:center;">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label"><b>__________________________________________________________</b></label>
+                </div>
+                <div class="form-group col-md-12" style="font-size: 17px; margin-top:-1%;">
+                    <label class="form-control-label"><b>Assinatura do Proponente</b></label>
+                </div>
+            </div>
+
+            <br />
+            <br />
+            <div class="row">
+                <div class="form-group col-md-12">
+                    <label class="form-control-label"><b>DATA DO INGRESSO:____/____/2024. APROVAÇÃO DE INGRESSO:_______________________________________ </b></label>
+                </div>
+            </div>
+
+            <div class="row justify-content-end" style="margin-left: 23%;">
+                <div class="form-group col-md-2">
+                    <button type="submit" class="btn btn-primary">Gerar PDF</button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

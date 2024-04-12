@@ -1,0 +1,54 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="~/Scripts/jquery.mask.min.js" type="text/javascript"></script>
+</head>
+<body>
+    <!--<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">Ficha de Inscrição</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">-->
+    @*<li>@Html.ActionLink("Home", "Index", "Home")</li>*@
+    <!--</ul>
+            </div>
+        </div>
+    </div>-->
+
+    <div class="container body-content">
+        <p></p>
+        @RenderBody()
+        <hr />
+        <footer class="text-light py-4" style="background-color: darkslategrey;">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-7">
+                        <p class="mb-1"><strong>ANFIR - Associação Nacional dos Fabricantes de Implementos Rodoviários</strong></p>
+                        <p class="mb-1">Rua Conselheiro Saraiva, 306 cj. 55 - Santana, CEP: 02037-020, São Paulo-SP</p>
+                        <p class="mb-0">Fone: (11) 22972-5577</p>
+                    </div>
+                    <div class="col-md-5">
+                        <p class="mb-1">E-mail: <a href="mailto:anfir@anfir.org.br" class="text-light">anfir@anfir.org.br</a></p>
+                        <p class="mb-1">Site: <a href="http://www.anfir.org.br" class="text-light">www.anfir.org.br</a></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

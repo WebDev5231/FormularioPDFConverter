@@ -1,0 +1,194 @@
+﻿@model FormulárioPDFConverter.Models.Cadastro
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    @{
+        ViewBag.Title = "Ficha de Inscrição";
+    }
+    <style>
+        div {
+            font-size: 20px;
+            font-family: Arial;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1><b>FICHA DE INSCRIÇÃO</b></h1>
+    <br />
+    <div class="row">
+
+        <div class="form-check col-md-12">
+            @Html.RadioButtonFor(m => m.Categoria, "FABRICANTE", new { @class = "form-check-input", id = "fabricante", disabled = Model.CategoriaDesabilitada })
+            <label class="form-check-label" for="fabricante"><b>Fabricante</b></label>
+            @Html.RadioButtonFor(m => m.Categoria, "SISTEMISTA", new { @class = "form-check-input", id = "sistemista", disabled = Model.CategoriaDesabilitada })
+            <label class="form-check-label" for="sistemista"><b>Sistemista</b></label>
+            @Html.RadioButtonFor(m => m.Categoria, "COMPONENTES", new { @class = "form-check-input", id = "componentes", disabled = Model.CategoriaDesabilitada })
+            <label class="form-check-label" for="componentes"><b>Componentes</b></label>
+        </div>
+
+        <br />
+
+        <div class="col-md-6">
+            <label><b>Razão Social: </b></label>
+            @Model.Razao
+        </div>
+        <div class="col-md-12">
+            <label><b>CNPJ: </b></label>
+            @Model.CNPJ
+            <label class="col-md-6"><b>Inscrição na Junta Comercial: </b></label>
+            @Model.InscricaoJuntaComercial
+            <div class="col-md-12">
+                <label class="col-md-6"><b>Data da Inscrição: </b></label>
+                @Model.DataInscricaoJuntaComercial
+                <label class="col-md-6"><b>Endereço: </b></label>
+                @Model.Endereco
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-6"><b>Complemento: </b></label>
+                @Model.Complemento
+                <label class="col-md-6"><b>CEP: </b></label>
+                @Model.Cep
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-6"><b>Bairro: </b></label>
+                @Model.Bairro
+                <label class="col-md-6"><b>Cidade: </b></label>
+                @Model.Cidade
+                <label class="col-md-6"><b>Estado: </b></label>
+                @Model.Estado
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-6"><b>Site: </b></label>
+                @Model.Site
+                <label class="col-md-6"><b>E-mail: </b></label>
+                @Model.Email
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-12"><b>Porte da Empresa: </b></label>
+                @Model.PorteEmpresaSelecionado
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-4"><b>Quantidade de Funcionários: </b></label>
+                @Model.quant_funcio
+                <label class="col-md-4"><b>Faturamento Anual: </b></label>
+                @Model.faturamentoAnual
+            </div>
+            <div class="col-md-12">
+                <label class="col-md-12"><b>Telefone: </b></label>
+                @Model.Telefone
+            </div>
+        </div>
+        <br />
+        <br />
+
+        <h2><b>REPRESENTANTES LEGAIS</b></h2>
+
+        <div class="col-md-12">
+            <label class="col-md-12"><b>Representante Legal 1: </b></label>
+            @Model.representanteLegal1
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-12"><b>CPF Representante Legal 1: </b></label>
+            @Model.cpfRepresentante1
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>RG Representante Legal 1: </b></label>
+            @Model.rgRepresentante1
+            <label class="col-md-6"><b>Data da Expedição: </b></label>
+            @Model.dataExpedicaoRepresentante1.Date
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>Telefone Representante 1: </b></label>
+            @Model.telefoneRepresentante1
+            <label class="col-md-6"><b>E-mail Representante 1: </b></label>
+            @Model.emailRepresentante1
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>Cargo Representante 1: </b></label>
+            @Model.cargoRepresentante1
+        </div>
+
+        <p></p>
+        <div class="col-md-12">
+            <label class="col-md-12"><b>Representante Legal 2: </b></label>
+            @Model.representanteLegal2
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>CPF Representante Legal 2: </b></label>
+            @Model.cpfRepresentante2
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>RG Representante Legal 2: </b></label>
+            @Model.rgRepresentante2
+            <label class="col-md-6"><b>Data da Expedição: </b></label>
+            @Model.dataExpedicaoRepresentante2.Date
+        </div>
+        <div class="col-md-12">
+            <label class="col-md-6"><b>Telefone Representante 2: </b></label>
+            @Model.telefoneRepresentante2
+            <label class="cold-md-6"><b>Cargo Representante 2: </b></label>
+            @Model.cargoRepresentante2
+        </div>
+        <div class="cold-md-12">
+            <label class="cold-md-12"><b>Data Representantes: </b></label>
+            @Model.dataRepresentantes.ToString("dd-MM-yyyy");
+        </div>
+    </div>
+
+    <br />
+    <div class="row">
+        <div class="form-group col-md-12">
+            <h3><b>DECLARAÇÃO</b></h3>
+            <p>
+                <b style="text-align:justify;">
+                    Declaro, para os devidos fins, que estou ciente das condições para ingresso na Associação Nacional dos Fabricantes de Implementos Rodovíarios - ANFIR,
+                    descritas em seu Estatuto Social, ao qual tive acesso, bem como dos direitos e obrigações por mim assumidos a partir da assinatura ao final deste instrumento.
+                </b>
+            </p>
+        </div>
+
+        <br />
+        <div class="row" style="text-align:center;">
+            <div class="form-group col-md-12" style="margin-left:29%;">
+                <label class="form-control-label"><b>_________________,_______ de ________________ de 2024</b></label>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="row" style="text-align:center;">
+            <div class="form-group col-md-12">
+                <label class="form-control-label"><b>__________________________________________________________</b></label>
+            </div>
+            <div class="form-group col-md-12" style="font-size: 24px;">
+                <label class="form-control-label"><b>Assinatura do Proponente</b></label>
+            </div>
+        </div>
+
+        <br />
+        <br />
+        <br />
+        <br />
+        <br />
+        <div class="row">
+            <div class="form-group col-md-12">
+                <label class="form-control-label"><b>DATA DO INGRESSO:___/___/2024. APROVAÇÃO DE INGRESSO:_____________________ </b></label>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
