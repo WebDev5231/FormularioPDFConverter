@@ -17,7 +17,6 @@ namespace FormulárioPDFConverter.Models
         [Column("ID_Grupo")]
         public string ID_Grupo { get; set; }
         public string InscricaoJuntaComercial { get; set; }
-        public DateTime DataInscricaoJuntaComercial { get; set; }
 
         [Required]
         [Column("ID_Publico")]
@@ -29,8 +28,10 @@ namespace FormulárioPDFConverter.Models
         [Required]
         [Column("ID_Sub_Publico")]
         public string ID_Sub_Publico { get; set; }
-        public string Categoria { get; set; }
-        public bool CategoriaDesabilitada { get; set; }
+
+        public List<SelectListItem> Categorias { get; set; }
+        public string CategoriaSelecionada { get; set; }
+        public int id_cat_assoc { get; set; }
 
         [Column("Filial")]
         public bool Filial { get; set; }
@@ -41,7 +42,6 @@ namespace FormulárioPDFConverter.Models
         [Required]
         [Column("CNPJ")]
         public string CNPJ { get; set; }
-        public decimal faturamentoAnual { get; set; }
 
         [Column("Niev")]
         public string Niev { get; set; }
@@ -150,9 +150,6 @@ namespace FormulárioPDFConverter.Models
         [Column("email_solicitacoes")]
         public string email_solicitacoes { get; set; }
 
-        [Column("quant_funcio")]
-        public int quant_funcio { get; set; }
-
         [Column("cpf")]
         public string cpf { get; set; }
 
@@ -167,7 +164,6 @@ namespace FormulárioPDFConverter.Models
         public string status_homologacao { get; set; }
         public string diavencto { get; set; }
         public string foto_empresa { get; set; }
-        public int id_cat_assoc { get; set; }
         public DateTime data_cadastro { get; set; }
         public int cod_selo { get; set; }
         public string Data_Desliga { get; set; }
@@ -185,18 +181,16 @@ namespace FormulárioPDFConverter.Models
         public string representanteLegal1 { get; set; }
         public string cpfRepresentante1 { get; set; }
         public string rgRepresentante1 { get; set; }
-        public DateTime dataExpedicaoRepresentante1 { get; set; }
         public string telefoneRepresentante1 { get; set; }
         public string emailRepresentante1 { get; set; }
         public string cargoRepresentante1 { get; set; }
         public string representanteLegal2 { get; set; }
         public string cpfRepresentante2 { get; set; }
         public string rgRepresentante2 { get; set; }
-        public DateTime dataExpedicaoRepresentante2 { get; set; }
         public string telefoneRepresentante2 { get; set; }
         public string emailRepresentante2 { get; set; }
         public string cargoRepresentante2 { get; set; }
-        public string cidadeRepresentantes { get; set; }
-        public DateTime dataRepresentantes { get; set; }
+        public string inscricaoEstadual { get; set; }
+        public DateTime dataFundacao { get; set; }
     }
 }

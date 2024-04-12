@@ -26,19 +26,14 @@
 <body>
     <h1><b>FICHA DE INSCRIÇÃO</b></h1>
     <br />
-    <div class="row">
 
-        <div class="form-check col-md-12">
-            @Html.RadioButtonFor(m => m.Categoria, "FABRICANTE", new { @class = "form-check-input", id = "fabricante", disabled = Model.CategoriaDesabilitada })
-            <label class="form-check-label" for="fabricante"><b>Fabricante</b></label>
-            @Html.RadioButtonFor(m => m.Categoria, "SISTEMISTA", new { @class = "form-check-input", id = "sistemista", disabled = Model.CategoriaDesabilitada })
-            <label class="form-check-label" for="sistemista"><b>Sistemista</b></label>
-            @Html.RadioButtonFor(m => m.Categoria, "COMPONENTES", new { @class = "form-check-input", id = "componentes", disabled = Model.CategoriaDesabilitada })
-            <label class="form-check-label" for="componentes"><b>Componentes</b></label>
+    <div class="row">
+        <div class="col-md-12">
+            <label class="col-md-12"><b>Categoria: </b></label>
+            @Model.CategoriaSelecionada
         </div>
 
         <br />
-
         <div class="col-md-6">
             <label><b>Razão Social: </b></label>
             @Model.Razao
@@ -49,8 +44,6 @@
             <label class="col-md-6"><b>Inscrição na Junta Comercial: </b></label>
             @Model.InscricaoJuntaComercial
             <div class="col-md-12">
-                <label class="col-md-6"><b>Data da Inscrição: </b></label>
-                @Model.DataInscricaoJuntaComercial
                 <label class="col-md-6"><b>Endereço: </b></label>
                 @Model.Endereco
             </div>
@@ -79,14 +72,14 @@
                 @Model.PorteEmpresaSelecionado
             </div>
             <div class="col-md-12">
-                <label class="col-md-4"><b>Quantidade de Funcionários: </b></label>
-                @Model.quant_funcio
-                <label class="col-md-4"><b>Faturamento Anual: </b></label>
-                @Model.faturamentoAnual
+                <label class="col-md-6"><b>Telefone: </b></label>
+                @Model.Telefone
+                <label class="col-md-6"><b>Inscrição Estadual: </b></label>
+                @Model.inscricaoEstadual
             </div>
             <div class="col-md-12">
-                <label class="col-md-12"><b>Telefone: </b></label>
-                @Model.Telefone
+                <label class="col-md-12"><b>Data de Fundação: </b></label>
+                @Model.dataFundacao.Date
             </div>
         </div>
         <br />
@@ -105,8 +98,6 @@
         <div class="col-md-12">
             <label class="col-md-6"><b>RG Representante Legal 1: </b></label>
             @Model.rgRepresentante1
-            <label class="col-md-6"><b>Data da Expedição: </b></label>
-            @Model.dataExpedicaoRepresentante1.Date
         </div>
         <div class="col-md-12">
             <label class="col-md-6"><b>Telefone Representante 1: </b></label>
@@ -131,18 +122,14 @@
         <div class="col-md-12">
             <label class="col-md-6"><b>RG Representante Legal 2: </b></label>
             @Model.rgRepresentante2
-            <label class="col-md-6"><b>Data da Expedição: </b></label>
-            @Model.dataExpedicaoRepresentante2.Date
         </div>
         <div class="col-md-12">
             <label class="col-md-6"><b>Telefone Representante 2: </b></label>
             @Model.telefoneRepresentante2
             <label class="cold-md-6"><b>Cargo Representante 2: </b></label>
             @Model.cargoRepresentante2
-        </div>
-        <div class="cold-md-12">
-            <label class="cold-md-12"><b>Data Representantes: </b></label>
-            @Model.dataRepresentantes.ToString("dd-MM-yyyy");
+            <label class="cold-md-6"><b>E-mail Representante 2:  </b></label>
+            @Model.emailRepresentante2
         </div>
     </div>
 

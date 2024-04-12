@@ -5,7 +5,6 @@ using System.Web.Mvc;
 using Dapper;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -27,18 +26,22 @@ namespace FormulárioPDFConverter.Controllers
             cadastro.Estado = cidade.munEST;
 
 
-            //NECESSARIO ANALISAR, NÃO ESTÁ PEGANDO VALOR NO PDF
-            var categoria = GetCategoriaById(cadastro.id_cat_assoc);
-            cadastro.Categoria = categoria;
-            cadastro.CategoriaDesabilitada = (categoria == "FABRICANTE");
-
+            cadastro.Categorias = new List<SelectListItem>
+            {
+            new SelectListItem { Text = "FABRICANTE", Value = "FABRICANTE" },
+            new SelectListItem { Text = "SISTEMISTA", Value = "SISTEMISTA" },
+            new SelectListItem { Text = "COMPONENTES", Value = "COMPONENTES" },
+            new SelectListItem { Text = "", Value = "" }
+            };
+            cadastro.CategoriaSelecionada = GetCategoriaById(cadastro.id_cat_assoc);
 
             cadastro.PortesEmpresa = new List<SelectListItem>
             {
             new SelectListItem { Text = "Micro", Value = "micro" },
             new SelectListItem { Text = "Pequena", Value = "pequena" },
             new SelectListItem { Text = "Média", Value = "media" },
-            new SelectListItem { Text = "Grande", Value = "grande" }
+            new SelectListItem { Text = "Grande", Value = "grande" },
+            new SelectListItem {Text = "", Value="" }
             };
             cadastro.PorteEmpresaSelecionado = GetPorteEmpresa(cadastro.porteempresa);
 
