@@ -25,7 +25,6 @@ namespace FormulárioPDFConverter.Controllers
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
-
             cadastro.Categorias = new List<SelectListItem>
             {
             new SelectListItem { Text = "FABRICANTE", Value = "FABRICANTE" },
@@ -34,6 +33,7 @@ namespace FormulárioPDFConverter.Controllers
             new SelectListItem { Text = "", Value = "" }
             };
             cadastro.CategoriaSelecionada = GetCategoriaById(cadastro.id_cat_assoc);
+
 
             cadastro.PortesEmpresa = new List<SelectListItem>
             {

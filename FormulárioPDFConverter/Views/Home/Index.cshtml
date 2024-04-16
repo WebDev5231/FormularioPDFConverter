@@ -38,9 +38,9 @@
             @Html.AntiForgeryToken()
 
             <div class="form-group col-md-12">
-                <label class="form-control-label"><b>Categoria: </b><span class="text-danger"> *</span></label>
+                <label class="form-control-label"><b>Categoria: </b></label>
                 <div class="row">
-                    @Html.DropDownListFor(m => m.CategoriaSelecionada, Model.Categorias, new { @class = "form-control col-md-6", disabled = "" })
+                    @Html.DropDownListFor(m => m.CategoriaSelecionada, Model.Categorias, new { @class = "form-control col-md-6" })
                 </div>
             </div>
             <div class="row">
@@ -116,10 +116,6 @@
                     <label class="form-control-label"><b>Inscrição Estadual </b><span class="text-danger"> *</span></label>
                     @Html.TextBoxFor(m => m.inscricaoEstadual, new { @class = "form-control col-md-12", @placeholder = "Inscrição Estadual" })
                 </div>
-                <div class="form-group col-md-3">
-                    <label class="form-control-label"><b>Data de Fundação </b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.dataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Data de Fundação" })
-                </div>
             </div>
             <p></p>
 
@@ -191,10 +187,6 @@
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>Função/Cargo</b><span class="text-danger"> *</span></label>
                     @Html.TextBoxFor(m => m.cargoRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe a função ou cargo" })
-                </div>
-                <div class="form-group col-md-4">
-                    <label class="form-control-label"><b>Cidade</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.emailRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail" })
                 </div>
             </div>
 

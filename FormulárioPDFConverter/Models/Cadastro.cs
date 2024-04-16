@@ -191,6 +191,5 @@ namespace FormulárioPDFConverter.Models
         public string emailRepresentante2 { get; set; }
         public string cargoRepresentante2 { get; set; }
         public string inscricaoEstadual { get; set; }
-        public DateTime dataFundacao { get; set; }
     }
 }
