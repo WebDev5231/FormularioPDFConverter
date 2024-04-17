@@ -13,9 +13,9 @@
         ViewBag.Title = "Ficha de Inscrição";
     }
     <style>
-        div {
+        body {
             font-size: 20px;
-            font-family: Arial;
+            font-family: Cambria, "Times New Roman", serif;
         }
 
         h1, h2, h3 {
@@ -41,12 +41,9 @@
         <div class="col-md-12">
             <label><b>CNPJ: </b></label>
             @Model.CNPJ
-            <label class="col-md-6"><b>Inscrição na Junta Comercial: </b></label>
-            @Model.InscricaoJuntaComercial
-            <div class="col-md-12">
-                <label class="col-md-6"><b>Endereço: </b></label>
-                @Model.Endereco
-            </div>
+            <label class="col-md-6"><b>Endereço: </b></label>
+            @Model.Endereco
+
             <div class="col-md-12">
                 <label class="col-md-6"><b>Complemento: </b></label>
                 @Model.Complemento
@@ -74,13 +71,16 @@
             <div class="col-md-12">
                 <label class="col-md-6"><b>Telefone: </b></label>
                 @Model.Telefone
-                <label class="col-md-6"><b>Inscrição Estadual: </b></label>
-                @Model.inscricaoEstadual
-            </div>
-            <div class="col-md-12">
                 <label class="col-md-12"><b>Data de Fundação: </b></label>
                 @Model.DataFundacao.ToString("dd/MM/yyyy")
             </div>
+            <div class="col-md-12">
+                <label class="col-md-6"><b>Inscrição na Junta Comercial: </b></label>
+                @Model.InscricaoJuntaComercial
+                <label class="col-md-6"><b>Inscrição Estadual: </b></label>
+                @Model.inscricaoEstadual
+            </div>
+
         </div>
         <br />
         <br />

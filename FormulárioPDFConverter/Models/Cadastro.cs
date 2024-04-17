@@ -159,14 +159,9 @@ namespace FormulárioPDFConverter.Models
         [Column("contatofinanceiro")]
         public string contatofinanceiro { get; set; }
 
-        public string pedidoinsercao { get; set; }
-        public decimal txtvalorpi { get; set; }
         public string status_homologacao { get; set; }
-        public string diavencto { get; set; }
-        public string foto_empresa { get; set; }
         public DateTime data_cadastro { get; set; }
         public int cod_selo { get; set; }
-        public string Data_Desliga { get; set; }
         public string NomeResponsavelLegal { get; set; }
         public string EmailResponsavelLegal { get; set; }
         public string RGResponsavelLegal { get; set; }

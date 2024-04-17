@@ -44,25 +44,25 @@
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="form-group col-md-12">
                     <label class="form-control-label"><b>Razão Social</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Razao, new { @class = "form-control col-md-12", @placeholder = "Informe a Razão Social" })
+                    @Html.TextBoxFor(m => m.Razao, new { @class = "form-control col-md-12", @placeholder = "Informe a Razão Social", @required = "required" })
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                <div class="form-group col-md-6">
                     <label class="form-control-label"><b>CNPJ</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control col-md-12", @placeholder = "Informe o CNPJ" })
+                    @Html.TextBoxFor(m => m.CNPJ, new { @class = "form-control col-md-12", @placeholder = "Informe o CNPJ", @required = "required" })
                 </div>
-                <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
-                    <label class="form-control-label"><b>Inscrição na Junta Comercial</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.InscricaoJuntaComercial, new { @class = "form-control col-md-12", @placeholder = "Inscrição na Junta Comercial" })
+                <div class="form-group col-md-6" style="margin-top: 7px;">
+                    <label class="form-control-label"><b>Porte da Empresa</b><span class="text-danger"> *</span></label>
+                    @Html.DropDownListFor(m => m.PorteEmpresaSelecionado, Model.PortesEmpresa, new { @class = "form-control col-md-12", @required = "required" })
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-8">
                     <label class="form-control-label"><b>Endereço</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Endereco, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Endereço" })
+                    @Html.TextBoxFor(m => m.Endereco, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Endereço", @required = "required" })
                 </div>
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>Complemento</b></label>
@@ -72,19 +72,19 @@
             <div class="row">
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>CEP</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Cep, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o CEP" })
+                    @Html.TextBoxFor(m => m.Cep, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o CEP", @required = "required" })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Bairro</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Bairro, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o bairro" })
+                    @Html.TextBoxFor(m => m.Bairro, new { @type = "text", @class = "form-control col-md-12", @placeholder = "Informe o bairro", @required = "required" })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Cidade</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control col-md-12", @placeholder = "Informe a Cidade" })
+                    @Html.TextBoxFor(m => m.Cidade, new { @class = "form-control col-md-12", @placeholder = "Informe a Cidade", @required = "required" })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Estado</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Estado, new { @class = "form-control col-md-12", @placeholder = "Informe o Estado" })
+                    @Html.TextBoxFor(m => m.Estado, new { @class = "form-control col-md-12", @placeholder = "Informe o Estado", @required = "required" })
                 </div>
             </div>
             <div class="row">
@@ -94,27 +94,25 @@
                 </div>
                 <div class="form-group col-md-6">
                     <label class="form-control-label"><b>E-mail</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail" })
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail", @required = "required" })
                 </div>
             </div>
             <div class="row">
-                <div class="form-group col-md-12">
-                    <label class="form-control-label"><b>Porte da Empresa</b><span class="text-danger"> *</span></label>
-                    <div class="row" style="margin-left: 0%;">
-                        @Html.DropDownListFor(m => m.PorteEmpresaSelecionado, Model.PortesEmpresa, new { @class = "form-control" })
-                    </div>
-                </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Data de fundação </b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.DataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano" })
+                    @Html.TextBoxFor(m => m.DataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano", @required = "required" })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Telefone Principal </b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control col-md-12", @placeholder = "Telefone" })
+                    @Html.TextBoxFor(m => m.Telefone, new { @class = "form-control col-md-12", @placeholder = "Telefone", @required = "required" })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Inscrição Estadual </b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.inscricaoEstadual, new { @class = "form-control col-md-12", @placeholder = "Inscrição Estadual" })
+                    @Html.TextBoxFor(m => m.inscricaoEstadual, new { @class = "form-control col-md-12", @placeholder = "Inscrição Estadual", @required = "required" })
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="form-control-label"><b>Inscrição na Junta Comercial</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.InscricaoJuntaComercial, new { @class = "form-control col-md-12", @placeholder = "Junta Comercial" })
                 </div>
             </div>
             <p></p>
@@ -125,35 +123,33 @@
             <div class="row">
                 <div class="form-group col-md-12">
                     <label class="form-control-label" style="font-size: 18px;"><b>Representante Legal 1</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.representanteLegal1, new { @class = "form-control col-md-12", @placeholder = "Representante Legal 1" })
+                    @Html.TextBoxFor(m => m.representanteLegal1, new { @class = "form-control col-md-12", @placeholder = "Representante Legal 1", @required = "required" })
                 </div>
             </div>
             <div class="row">
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>CPF</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.cpfRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o CPF" })
+                    @Html.TextBoxFor(m => m.cpfRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o CPF", @required = "required" })
                 </div>
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>RG</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.rgRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o RG" })
+                    @Html.TextBoxFor(m => m.rgRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o RG", @required = "required" })
                 </div>
             </div>
-
             <div class="row">
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Telefone</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.telefoneRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o Telefone" })
+                    @Html.TextBoxFor(m => m.telefoneRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o Telefone", @required = "required" })
                 </div>
                 <div class="form-group col-md-5">
-                    <label class="form-control-label"><b>Email</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.emailRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o email" })
+                    <label class="form-control-label"><b>E-mail</b><span class="text-danger"> *</span></label>
+                    @Html.TextBoxFor(m => m.emailRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail", @required = "required" })
                 </div>
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>Função/Cargo</b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.cargoRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe a função ou cargo" })
+                    @Html.TextBoxFor(m => m.cargoRepresentante1, new { @class = "form-control col-md-12", @placeholder = "Informe a função ou cargo", @required = "required" })
                 </div>
             </div>
-
             <p></p>
 
             <!-- #REGION REPRESENTANTE 2 -->
@@ -163,7 +159,6 @@
                     @Html.TextBoxFor(m => m.representanteLegal2, new { @class = "form-control col-md-12", @placeholder = "Nome do representante legal" })
                 </div>
             </div>
-
             <div class="row">
                 <div class="form-group col-md-4">
                     <label class="form-control-label"><b>CPF</b><span class="text-danger"> *</span></label>
@@ -174,14 +169,13 @@
                     @Html.TextBoxFor(m => m.rgRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o RG" })
                 </div>
             </div>
-
             <div class="row">
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Telefone</b><span class="text-danger"> *</span></label>
                     @Html.TextBoxFor(m => m.telefoneRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o telefone" })
                 </div>
                 <div class="form-group col-md-5">
-                    <label class="form-control-label"><b>Email</b><span class="text-danger"> *</span></label>
+                    <label class="form-control-label"><b>E-mail</b><span class="text-danger"> *</span></label>
                     @Html.TextBoxFor(m => m.emailRepresentante2, new { @class = "form-control col-md-12", @placeholder = "Informe o E-mail" })
                 </div>
                 <div class="form-group col-md-4">
