@@ -40,7 +40,7 @@
             <div class="form-group col-md-12">
                 <label class="form-control-label"><b>Categoria: </b></label>
                 <div class="row">
-                    @Html.DropDownListFor(m => m.CategoriaSelecionada, Model.Categorias, new { @class = "form-control col-md-6" })
+                    @Html.DropDownListFor(m => m.CategoriaSelecionada, Model.Categorias, new { @class = "form-control col-md-6", @required = "required" })
                 </div>
             </div>
             <div class="row">

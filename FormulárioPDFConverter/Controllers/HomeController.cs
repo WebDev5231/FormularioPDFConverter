@@ -100,12 +100,6 @@ namespace FormulárioPDFConverter.Controllers
         {
             try
             {
-                model.InscricaoJuntaComercial = FormatStringField(model.InscricaoJuntaComercial);
-                model.telefoneRepresentante2 = FormatStringField(model.telefoneRepresentante2);
-                model.Complemento = FormatStringField(model.Complemento);
-                model.Bairro = FormatStringField(model.Bairro);
-                model.Site = FormatStringField(model.Site);
-
                 var report = new Rotativa.ActionAsPdf("Ficha", model);
 
                 return report;
@@ -116,14 +110,6 @@ namespace FormulárioPDFConverter.Controllers
                 return Content("Erro ao gerar o arquivo PDF");
             }
         }
-        private string FormatStringField(string fieldValue)
-        {
-            if (string.IsNullOrWhiteSpace(fieldValue))
-            {
-                return fieldValue.PadLeft(10);
-            }
 
-            return fieldValue;
-        }
     }
 }

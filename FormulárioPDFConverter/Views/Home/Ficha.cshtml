@@ -21,10 +21,19 @@
         h1, h2, h3 {
             text-align: center;
         }
+
+        img {
+            width: 30%;
+        }
     </style>
 </head>
 <body>
-    <h1><b>FICHA DE INSCRIÇÃO</b></h1>
+
+    <img src="~/Imagens/logoAnfir.png" />
+
+
+
+    <h2><b>FICHA DE INSCRIÇÃO</b></h2>
     <br />
 
     <div class="row">
@@ -40,27 +49,27 @@
         </div>
         <div class="col-md-12">
             <label><b>CNPJ: </b></label>
-            @Model.CNPJ
+            @Model.CNPJ &nbsp;&nbsp;&nbsp;&nbsp;
             <label class="col-md-6"><b>Endereço: </b></label>
             @Model.Endereco
 
             <div class="col-md-12">
                 <label class="col-md-6"><b>Complemento: </b></label>
-                @Model.Complemento
+                @Model.Complemento &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-6"><b>CEP: </b></label>
                 @Model.Cep
             </div>
             <div class="col-md-12">
                 <label class="col-md-6"><b>Bairro: </b></label>
-                @Model.Bairro
+                @Model.Bairro &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-6"><b>Cidade: </b></label>
-                @Model.Cidade
+                @Model.Cidade &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-6"><b>Estado: </b></label>
                 @Model.Estado
             </div>
             <div class="col-md-12">
                 <label class="col-md-6"><b>Site: </b></label>
-                @Model.Site
+                @Model.Site &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-6"><b>E-mail: </b></label>
                 @Model.Email
             </div>
@@ -70,13 +79,13 @@
             </div>
             <div class="col-md-12">
                 <label class="col-md-6"><b>Telefone: </b></label>
-                @Model.Telefone
+                @Model.Telefone &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-12"><b>Data de Fundação: </b></label>
                 @Model.DataFundacao.ToString("dd/MM/yyyy")
             </div>
             <div class="col-md-12">
                 <label class="col-md-6"><b>Inscrição na Junta Comercial: </b></label>
-                @Model.InscricaoJuntaComercial
+                @Model.InscricaoJuntaComercial &nbsp;&nbsp;&nbsp;&nbsp;
                 <label class="col-md-6"><b>Inscrição Estadual: </b></label>
                 @Model.inscricaoEstadual
             </div>
@@ -101,7 +110,7 @@
         </div>
         <div class="col-md-12">
             <label class="col-md-6"><b>Telefone Representante 1: </b></label>
-            @Model.telefoneRepresentante1
+            @Model.telefoneRepresentante1 &nbsp;&nbsp;&nbsp;&nbsp;
             <label class="col-md-6"><b>E-mail Representante 1: </b></label>
             @Model.emailRepresentante1
         </div>
@@ -125,7 +134,7 @@
         </div>
         <div class="col-md-12">
             <label class="col-md-6"><b>Telefone Representante 2: </b></label>
-            @Model.telefoneRepresentante2
+            @Model.telefoneRepresentante2 &nbsp;&nbsp;&nbsp;&nbsp;
             <label class="cold-md-12"><b>E-mail Representante 2:  </b></label>
             @Model.emailRepresentante2
         </div>
@@ -140,7 +149,7 @@
         <div class="form-group col-md-12">
             <h3><b>DECLARAÇÃO</b></h3>
             <p>
-                <b style="text-align:justify;">
+                <b style="text-align:justify; font-size:18px;">
                     Declaro, para os devidos fins, que estou ciente das condições para ingresso na Associação Nacional dos Fabricantes de Implementos Rodovíarios - ANFIR,
                     descritas em seu Estatuto Social, ao qual tive acesso, bem como dos direitos e obrigações por mim assumidos a partir da assinatura ao final deste instrumento.
                 </b>
