@@ -15,19 +15,21 @@
 
     @* Montar o button para a chamada do modal e a requisição RESTFULL *@
 
-    <!--<div class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-top: -3%;">
         <div class="container">
-            <a class="navbar-brand" href="#">Ficha de Inscrição</a>
+            @*<a class="navbar-brand" href="#">Atenção:</a>*@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse">
-                <ul class="navbar-nav ml-auto">-->
-    @* <li>@Html.ActionLink("Home", "Index", "Home")</li> *@
-    <!--</ul>
+                <ul class="navbar-nav ml-auto">
+                    <li>
+                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalSendFile">Enviar Documento</button>
+                    </li>
+                </ul>
             </div>
         </div>
-    </div>-->
+    </div>
 
     <div class="container body-content">
         <p></p>
@@ -49,7 +51,6 @@
             </div>
         </footer>
     </div>
-
 
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
