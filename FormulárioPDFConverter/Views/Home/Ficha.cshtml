@@ -157,8 +157,10 @@
         <br />
         <br />
         <div class="row" style="text-align:center;">
-            <div class="form-group col-md-12" style="margin-left:50%; margin-top:-2%;">
-                <label class="form-control-label"><b>______________,_______ de ________________ de 2024</b></label>
+            <div class="form-group col-md-12" style="margin-left:60%; margin-top:-2%;">
+                <label class="form-control-label">
+                    <b><u>@($"{Model.Cidade} - {Model.Estado}, {Model.dataDeIngresso.Substring(0, 2)} de {@DateTime.ParseExact(Model.dataDeIngresso, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM").ToUpper()} de {Model.dataDeIngresso.Substring(6, 4)}")</u></b>
+                </label>
             </div>
         </div>
 
@@ -178,9 +180,13 @@
         <br />
         <br />
         <br />
+        <br />
+        <br />
         <div class="row">
             <div class="form-group col-md-12">
-                <label class="form-control-label"><b>DATA DO INGRESSO:____/____/2024. APROVAÇÃO DE INGRESSO:</b></label>
+                <label class="form-control-label">
+                    <b>DATA DO INGRESSO: @Model.dataDeIngresso. APROVAÇÃO DE INGRESSO:</b>
+                </label>
                 <img src="~/Imagens/AssinaturaAnfir.jpeg" alt="Assinatura de Aprovação de Ingresso" style="margin-top: -4%; width:30%;" />
             </div>
         </div>

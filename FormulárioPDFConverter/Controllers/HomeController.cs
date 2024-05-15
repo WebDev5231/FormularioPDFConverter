@@ -5,6 +5,8 @@ using System.Web.Mvc;
 using Dapper;
 using System;
 using System.Collections.Generic;
+using System.Web;
+using System.IO;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -34,7 +36,6 @@ namespace FormulárioPDFConverter.Controllers
             };
             cadastro.CategoriaSelecionada = GetCategoriaById(cadastro.id_cat_assoc);
 
-
             cadastro.PortesEmpresa = new List<SelectListItem>
             {
             new SelectListItem { Text = "Micro", Value = "micro" },
@@ -44,6 +45,8 @@ namespace FormulárioPDFConverter.Controllers
             new SelectListItem {Text = "", Value="" }
             };
             cadastro.PorteEmpresaSelecionado = GetPorteEmpresa(cadastro.porteempresa);
+
+            cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy");
 
             return View(cadastro);
         }
@@ -100,6 +103,8 @@ namespace FormulárioPDFConverter.Controllers
         {
             try
             {
+                model.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy");
+
                 var report = new Rotativa.ActionAsPdf("Ficha", model);
 
                 return report;
@@ -109,6 +114,33 @@ namespace FormulárioPDFConverter.Controllers
                 Console.WriteLine(ex);
                 return Content("Erro ao gerar o arquivo PDF");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload)
+        {
+            if (fileUpload != null && fileUpload.ContentLength > 0)
+            {
+                try
+                {
+                    string path = Path.Combine(Server.MapPath("~/Uploads"), Path.GetFileName(fileUpload.FileName));
+
+                    if (!Directory.Exists(Server.MapPath("~/Uploads")))
+                    {
+                        Directory.CreateDirectory(Server.MapPath("~/Uploads"));
+                    }
+
+                    fileUpload.SaveAs(path);
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return Content($"Erro ao fazer o upload do arquivo: {ex.Message}");
+                }
+            }
+            return Content("Nenhum arquivo selecionado");
         }
 
     }
