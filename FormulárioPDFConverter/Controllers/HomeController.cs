@@ -133,7 +133,7 @@ namespace FormulárioPDFConverter.Controllers
 
                     fileUpload.SaveAs(path);
 
-                    return RedirectToAction("Index");
+                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/Index';</script>");
                 }
                 catch (Exception ex)
                 {
@@ -142,6 +142,5 @@ namespace FormulárioPDFConverter.Controllers
             }
             return Content("Nenhum arquivo selecionado");
         }
-
     }
 }

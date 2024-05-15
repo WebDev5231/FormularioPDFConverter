@@ -28,6 +28,10 @@
         font-size: 18px !important;
         font-weight: 300;
     }
+
+    .modal-lg-custom {
+        max-width: 40%;
+    }
 </style>
 
 <div style="font-size:15px;">
@@ -237,11 +241,11 @@
 </div>
 
 <!-- Modal Send File -->
-<div class="modal fade" id="modalSendFile" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div class="modal fade" id="modalSendFile" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg-custom" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Enviar Arquivo</h5>
+                <h4 class="modal-title" id="exampleModalLabel"><b>Enviar Arquivo</b></h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -252,20 +256,18 @@
 
                 <div class="modal-body">
                     <div class="form-group">
-                        <label for="fileUpload">Escolha o arquivo</label>
-                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload" required>
-                        <div class="invalid-feedback">
-                            Por favor, selecione um arquivo para enviar.
-                        </div>
+                        <h5><b>Escolha o arquivo</b></h5>
+                        <input type="file" class="form-control-file col-md-12" id="fileUpload" name="fileUpload" required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
-                    <button type="submit" class="btn btn-primary">Salvar mudanças</button>
+                    <button type="submit" class="btn btn-primary">Enviar Documento</button>
                 </div>
             }
         </div>
     </div>
 </div>
+
 
 
