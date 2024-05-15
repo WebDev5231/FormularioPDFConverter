@@ -250,15 +250,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+            @using (@Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
             {
                 @Html.AntiForgeryToken()
-
                 <div class="modal-body">
                     <div class="form-group">
                         <h5><b>Escolha o arquivo</b></h5>
                         <input type="file" class="form-control-file col-md-12" id="fileUpload" name="fileUpload" required>
                     </div>
+                    @Html.TextBoxFor(m => m.CNPJ, new { @type = "hidden", @class = "form-control col-md-12", @placeholder = "Informe o CNPJ" })
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>

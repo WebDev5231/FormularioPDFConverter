@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -118,13 +119,16 @@ namespace FormulárioPDFConverter.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFile(HttpPostedFileBase fileUpload)
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload, string CNPJ)
         {
             if (fileUpload != null && fileUpload.ContentLength > 0)
             {
                 try
                 {
-                    string path = Path.Combine(Server.MapPath("~/Uploads"), Path.GetFileName(fileUpload.FileName));
+                    string cnpjFormatado = Regex.Replace(CNPJ, "[^0-9]", "");
+                    string nomeArquivo = $"Ficha_de_Incricao_{cnpjFormatado}";
+
+                    string path = Path.Combine(Server.MapPath("~/Uploads"), nomeArquivo + Path.GetExtension(fileUpload.FileName));
 
                     if (!Directory.Exists(Server.MapPath("~/Uploads")))
                     {
@@ -142,5 +146,6 @@ namespace FormulárioPDFConverter.Controllers
             }
             return Content("Nenhum arquivo selecionado");
         }
+
     }
 }
