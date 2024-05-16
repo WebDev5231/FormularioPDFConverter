@@ -19,7 +19,7 @@ namespace FormulárioPDFConverter.Controllers
             connectionString = ConfigurationManager.ConnectionStrings["formPDFConverter"].ConnectionString;
         }
 
-        public ActionResult Index()
+        public ActionResult FichaIncricao()
         {
             var ID_Empresa = "10";
             var cadastro = GetCadastroById(ID_Empresa);
@@ -100,7 +100,7 @@ namespace FormulárioPDFConverter.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Index(Cadastro model)
+        public ActionResult FichaIncricao(Cadastro model)
         {
             try
             {
@@ -117,9 +117,17 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
+        public ActionResult uploadFile()
+        {
+            var ID_Empresa = "10";
+            var cadastro = GetCadastroById(ID_Empresa);
+
+            return View(cadastro);
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult UploadFile(HttpPostedFileBase fileUpload, string CNPJ)
+        public ActionResult UploadFile(HttpPostedFileBase fileUpload, string CNPJ, string ID_Empresa, string documentType)
         {
             if (fileUpload != null && fileUpload.ContentLength > 0)
             {
@@ -137,7 +145,7 @@ namespace FormulárioPDFConverter.Controllers
 
                     fileUpload.SaveAs(path);
 
-                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/Index';</script>");
+                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/FichaIncricao';</script>");
                 }
                 catch (Exception ex)
                 {
@@ -145,14 +153,6 @@ namespace FormulárioPDFConverter.Controllers
                 }
             }
             return Content("Nenhum arquivo selecionado");
-        }
-
-        public ActionResult uploadFile()
-        {
-            var ID_Empresa = "10";
-            var cadastro = GetCadastroById(ID_Empresa);
-
-            return View(cadastro);
         }
     }
 }

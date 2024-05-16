@@ -24,19 +24,19 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-group">
-                        <label>Escolha o arquivo que irá enviar</label>
-                        <input type="file" class="form-control-file">
+                        <label for="fileUpload">Escolha o arquivo que irá enviar</label>
+                        <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
                     </div>
 
                     <select class="custom-select col-md-12" id="documentType" name="documentType" required>
                         <option value="" disabled selected>Selecione o tipo de documento</option>
-                        <option value="Ficha de Incrição">Ficha de Inscrição</option>
+                        <option value="Ficha de Inscrição">Ficha de Inscrição</option>
                         <option value="2">Two</option>
                         <option value="3">Three</option>
                     </select>
 
-                    @Html.TextBoxFor(m => m.CNPJ, new { @type = "hidden", @class = "form-control" })
-                    @Html.TextBoxFor(m => m.ID_Empresa, new { @type = "hidden", @class = "form-control" })
+                    @Html.HiddenFor(m => m.CNPJ)
+                    @Html.HiddenFor(m => m.ID_Empresa)
 
                     <br />
                     <br />
@@ -47,7 +47,7 @@
             </div>
         </div>
     </div>
-    
+
     <br />
     <br />
     <br />
