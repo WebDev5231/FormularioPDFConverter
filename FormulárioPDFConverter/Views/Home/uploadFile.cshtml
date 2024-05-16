@@ -1,0 +1,65 @@
+﻿@model FormulárioPDFConverter.Models.Cadastro
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <meta charset="utf-8" />
+    <title>Enviar Arquivo</title>
+</head>
+<body style="background-color: #6a6a6a63;">
+
+    <br />
+    <br />
+    <br />
+
+    <div class="container mt-4">
+        <div class="card" style="border-radius: 1.25rem;">
+            <div class="card-header" style="background-color: #00000099;">
+                <h3 class="mb-0" style="color: #fcfcff"><b>Enviar Documentos:</b></h3>
+            </div>
+            <div class="card-body">
+                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="form-group">
+                        <label>Escolha o arquivo que irá enviar</label>
+                        <input type="file" class="form-control-file">
+                    </div>
+
+                    <select class="custom-select col-md-12" id="documentType" name="documentType" required>
+                        <option value="" disabled selected>Selecione o tipo de documento</option>
+                        <option value="Ficha de Incrição">Ficha de Inscrição</option>
+                        <option value="2">Two</option>
+                        <option value="3">Three</option>
+                    </select>
+
+                    @Html.TextBoxFor(m => m.CNPJ, new { @type = "hidden", @class = "form-control" })
+                    @Html.TextBoxFor(m => m.ID_Empresa, new { @type = "hidden", @class = "form-control" })
+
+                    <br />
+                    <br />
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Enviar Documento</button>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+    <br />
+</body>
+</html>

@@ -147,5 +147,12 @@ namespace FormulárioPDFConverter.Controllers
             return Content("Nenhum arquivo selecionado");
         }
 
+        public ActionResult uploadFile()
+        {
+            var ID_Empresa = "10";
+            var cadastro = GetCadastroById(ID_Empresa);
+
+            return View(cadastro);
+        }
     }
 }
