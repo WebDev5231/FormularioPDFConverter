@@ -120,11 +120,8 @@ namespace FormulárioPDFConverter.Controllers
         public ActionResult uploadFile()
         {
             var ID_Empresa = "10";
-            var cadastro = GetCadastroById(ID_Empresa);
 
             return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
-
-            //return View(cadastro);
         }
 
         [HttpPost]

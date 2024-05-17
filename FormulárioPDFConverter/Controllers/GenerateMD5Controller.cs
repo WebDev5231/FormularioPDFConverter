@@ -20,9 +20,18 @@ namespace FormulárioPDFConverter.Controllers
 
             var hash = GenerateMD5(combinacao);
 
-            ViewBag.MD5Hash = hash;
+            return RedirectToAction("displayHash", new { hash = hash });
+        }
 
-            return View("~/Views/Home/uploadFile.cshtml", hash);
+        public ActionResult displayHash(string hash)
+        {
+            if (string.IsNullOrEmpty(hash))
+            {
+                return new HttpStatusCodeResult(400, "Hash is required");
+            }
+
+            ViewBag.MD5Hash = hash;
+            return View("~/Views/Home/uploadFile.cshtml");
         }
 
         private string GenerateMD5(string input)
@@ -41,5 +50,4 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
     }
-
 }

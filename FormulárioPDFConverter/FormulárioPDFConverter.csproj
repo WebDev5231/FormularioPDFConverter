@@ -290,7 +290,6 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Uploads\" />
-    <Folder Include="Views\GenerateMD5\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
