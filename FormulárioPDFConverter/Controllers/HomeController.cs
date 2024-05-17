@@ -122,7 +122,9 @@ namespace FormulárioPDFConverter.Controllers
             var ID_Empresa = "10";
             var cadastro = GetCadastroById(ID_Empresa);
 
-            return View(cadastro);
+            return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
+
+            //return View(cadastro);
         }
 
         [HttpPost]
@@ -134,14 +136,9 @@ namespace FormulárioPDFConverter.Controllers
                 try
                 {
                     string cnpjFormatado = Regex.Replace(CNPJ, "[^0-9]", "");
-                    string nomeArquivo = $"Ficha_de_Incricao_{cnpjFormatado}";
+                    documentType = documentType + cnpjFormatado;
 
-                    string path = Path.Combine(Server.MapPath("~/Uploads"), nomeArquivo + Path.GetExtension(fileUpload.FileName));
-
-                    if (!Directory.Exists(Server.MapPath("~/Uploads")))
-                    {
-                        Directory.CreateDirectory(Server.MapPath("~/Uploads"));
-                    }
+                    string path = Path.Combine(Server.MapPath("~/Uploads"), documentType + Path.GetExtension(fileUpload.FileName));
 
                     fileUpload.SaveAs(path);
 
