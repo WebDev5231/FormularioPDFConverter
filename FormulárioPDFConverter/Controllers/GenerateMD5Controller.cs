@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FormulárioPDFConverter.Models;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
@@ -30,8 +31,15 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "Hash is required");
             }
 
+            var dados = TempData["dados"] as Cadastro;
+            if (dados == null)
+            {
+                return new HttpStatusCodeResult(500, "Dados não encontrados");
+            }
+
             ViewBag.MD5Hash = hash;
-            return View("~/Views/Home/uploadFile.cshtml");
+
+            return View("~/Views/Home/uploadFile.cshtml", dados);
         }
 
         private string GenerateMD5(string input)

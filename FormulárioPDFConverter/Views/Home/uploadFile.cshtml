@@ -5,7 +5,10 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
-    <title>Enviar Arquivo</title>
+
+    @{
+        ViewBag.Title = "Enviar Documentos:";
+    }
 </head>
 <body style="background-color: #6a6a6a63;">
 
@@ -19,7 +22,7 @@
                 <h3 class="mb-0" style="color: #fcfcff"><b>Enviar Documentos:</b></h3>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post))
                 {
                     @Html.AntiForgeryToken()
 

@@ -121,6 +121,10 @@ namespace FormulárioPDFConverter.Controllers
         {
             var ID_Empresa = "10";
 
+            var dados = GetCadastroById(ID_Empresa);
+
+            TempData["dados"] = dados;
+
             return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
         }
 
