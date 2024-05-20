@@ -21,17 +21,13 @@ namespace FormulárioPDFConverter.Controllers
 
         public ActionResult FichaIncricao()
         {
-
-            ////testar
             var ID_Empresa = Session["ID_Empresa"]?.ToString();
 
             if (string.IsNullOrEmpty(ID_Empresa))
             {
-                return RedirectToAction("uploadFile");
+                return new HttpStatusCodeResult(400, "access denied");
             }
 
-
-            //////
             var cadastro = GetCadastroById(ID_Empresa);
 
             var cidade = GetMunicipioById(cadastro.ID_Cidade);
@@ -82,6 +78,17 @@ namespace FormulárioPDFConverter.Controllers
             {
                 string sql = @"SELECT * FROM municipios WHERE munCOD = @ID_Cidade";
                 return connection.QueryFirstOrDefault<Municipio>(sql, new { ID_Cidade = ID_Cidade });
+            }
+        }
+
+        public void InsertFilesLogs(UploadFiles uploadFile)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                string sql = @"INSERT INTO UploadFiles (CNPJ, ID_Empresa, TipoDocumento, DataInclusao)
+                       VALUES (@CNPJ, @ID_Empresa, @TipoDocumento, @DataInclusao)";
+
+                connection.Execute(sql, uploadFile);
             }
         }
 
@@ -147,6 +154,7 @@ namespace FormulárioPDFConverter.Controllers
             {
                 try
                 {
+                    DateTime DataInclusao = DateTime.Now;
                     string cnpjFormatado = Regex.Replace(CNPJ, "[^0-9]", "");
                     documentType = documentType + cnpjFormatado;
 
@@ -154,7 +162,17 @@ namespace FormulárioPDFConverter.Controllers
 
                     fileUpload.SaveAs(path);
 
-                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/FichaIncricao';</script>");
+                    var uploadFile = new UploadFiles
+                    {
+                        CNPJ = cnpjFormatado,
+                        ID_Empresa = ID_Empresa,
+                        TipoDocumento = documentType,
+                        DataInclusao = DataInclusao
+                    };
+
+                    InsertFilesLogs(uploadFile);
+
+                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/UploadFiles';</script>");
                 }
                 catch (Exception ex)
                 {

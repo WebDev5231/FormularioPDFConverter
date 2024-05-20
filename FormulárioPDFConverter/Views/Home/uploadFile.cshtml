@@ -22,7 +22,7 @@
                 <h3 class="mb-0" style="color: #fcfcff"><b>Enviar Documentos:</b></h3>
             </div>
             <div class="card-body">
-                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post))
+                @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
                 {
                     @Html.AntiForgeryToken()
 
@@ -33,7 +33,7 @@
 
                     <select class="custom-select col-md-12" id="documentType" name="documentType" required>
                         <option value="" disabled selected>Selecione o tipo de documento</option>
-                        <option value="Ficha-de-Inscrição-">Ficha de Inscrição</option>
+                        <option value="Ficha-de-Inscricao-">Ficha de Inscrição</option>
                         <option value="Contrato-Social-">Contrato Social</option>
                         <option value="Cartao-CNPJ-">Cartão CNPJ</option>
                     </select>

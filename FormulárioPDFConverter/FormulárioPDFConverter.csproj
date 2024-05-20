@@ -135,6 +135,7 @@
     </Compile>
     <Compile Include="Models\Cadastro.cs" />
     <Compile Include="Models\Municipio.cs" />
+    <Compile Include="Models\UploadFiles.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
