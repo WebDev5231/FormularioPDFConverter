@@ -9,8 +9,10 @@ namespace FormulárioPDFConverter.Controllers
     public class GenerateMD5Controller : Controller
     {
         // GET: GenerateMD5/uploadFile
-        public ActionResult uploadFile(string ID_Empresa)
+        public ActionResult uploadFile()
         {
+            var ID_Empresa = Session["ID_Empresa"] as string;
+
             if (string.IsNullOrEmpty(ID_Empresa))
             {
                 return new HttpStatusCodeResult(400, "ID_Empresa is required");
@@ -21,6 +23,8 @@ namespace FormulárioPDFConverter.Controllers
 
             var hash = GenerateMD5(combinacao);
 
+            TempData["hash"] = hash;
+
             return RedirectToAction("displayHash", new { hash = hash });
         }
 
@@ -30,6 +34,8 @@ namespace FormulárioPDFConverter.Controllers
             {
                 return new HttpStatusCodeResult(400, "Hash is required");
             }
+
+            hash = TempData["hash"] as string ?? hash;
 
             var dados = TempData["dados"] as Cadastro;
             if (dados == null)

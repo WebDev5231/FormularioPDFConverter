@@ -21,7 +21,17 @@ namespace FormulárioPDFConverter.Controllers
 
         public ActionResult FichaIncricao()
         {
-            var ID_Empresa = "10";
+
+            ////testar
+            var ID_Empresa = Session["ID_Empresa"]?.ToString();
+
+            if (string.IsNullOrEmpty(ID_Empresa))
+            {
+                return RedirectToAction("uploadFile");
+            }
+
+
+            //////
             var cadastro = GetCadastroById(ID_Empresa);
 
             var cidade = GetMunicipioById(cadastro.ID_Cidade);
@@ -120,6 +130,7 @@ namespace FormulárioPDFConverter.Controllers
         public ActionResult uploadFile()
         {
             var ID_Empresa = "10";
+            Session["ID_Empresa"] = ID_Empresa;
 
             var dados = GetCadastroById(ID_Empresa);
 
