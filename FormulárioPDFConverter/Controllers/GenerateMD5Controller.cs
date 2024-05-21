@@ -15,7 +15,7 @@ namespace FormulárioPDFConverter.Controllers
 
             if (string.IsNullOrEmpty(ID_Empresa))
             {
-                return new HttpStatusCodeResult(400, "ID_Empresa is required");
+                return new HttpStatusCodeResult(400, "ID_Empresa inválido");
             }
 
             var palavraChave = "ANFIR306";

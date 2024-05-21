@@ -172,7 +172,7 @@ namespace FormulárioPDFConverter.Controllers
 
                     InsertFilesLogs(uploadFile);
 
-                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/UploadFiles';</script>");
+                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/uploadFile';</script>");
                 }
                 catch (Exception ex)
                 {

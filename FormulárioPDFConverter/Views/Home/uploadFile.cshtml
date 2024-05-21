@@ -19,7 +19,7 @@
     <div class="container mt-4">
         <div class="card" style="border-radius: 1.25rem;">
             <div class="card-header" style="background-color: #00000099;">
-                <h3 class="mb-0" style="color: #fcfcff"><b>Enviar Documentos:</b></h3>
+                <h3 class="mb-0" style="color: #fcfcff"><b>Incluir Documentos:</b></h3>
             </div>
             <div class="card-body">
                 @using (Html.BeginForm("UploadFile", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
@@ -27,12 +27,12 @@
                     @Html.AntiForgeryToken()
 
                     <div class="form-group">
-                        <label for="fileUpload">Escolha o documento que irá enviar</label>
+                        <label for="fileUpload">Escolha o documento que irá enviar:</label>
                         <input type="file" class="form-control-file" id="fileUpload" name="fileUpload">
                     </div>
 
                     <select class="custom-select col-md-12" id="documentType" name="documentType" required>
-                        <option value="" disabled selected>Selecione o tipo de documento</option>
+                        <option value="" disabled selected>Selecione o tipo de documento:</option>
                         <option value="Ficha-de-Inscricao-">Ficha de Inscrição</option>
                         <option value="Contrato-Social-">Contrato Social</option>
                         <option value="Cartao-CNPJ-">Cartão CNPJ</option>
