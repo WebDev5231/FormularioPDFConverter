@@ -37,16 +37,10 @@
 <div style="font-size:15px;">
     <h2 class="text-center"><b><u>FICHA DE INSCRIÇÃO</u></b></h2>
     <div class="card">
-        @using (Html.BeginForm("FichaIncricao", "Home", FormMethod.Post))
+        @using (Html.BeginForm("FichaIncricao", "Home", FormMethod.Post, new { target = "_blank" }))
         {
             @Html.AntiForgeryToken()
 
-            <div class="form-group col-md-12">
-                <label class="form-control-label"><b>Categoria: </b></label>
-                <div class="row">
-                    @Html.DropDownListFor(m => m.CategoriaSelecionada, Model.Categorias, new { @class = "form-control col-md-6", @required = "required" })
-                </div>
-            </div>
             <div class="row">
                 <div class="form-group col-md-12">
                     <label class="form-control-label"><b>Razão Social</b><span class="text-danger"> *</span></label>
@@ -205,7 +199,7 @@
             <div class="row" style="text-align:center;">
                 <div class="form-group col-md-12" style="margin-left:35%; margin-top:-2%;">
                     <label class="form-control-label">
-                        <b><u>@($"{Model.Cidade} - {Model.Estado}, {Model.dataDeIngresso.Substring(0, 2)} de {@DateTime.ParseExact(Model.dataDeIngresso, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM").ToUpper()} de {Model.dataDeIngresso.Substring(6, 4)}")</u></b>
+                        <b><u>@($"{Model.Cidade} - {Model.Estado}, {Model.dataDeIngresso.Substring(0, 2)} de {DateTime.ParseExact(Model.dataDeIngresso, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR")).ToUpper()} de {Model.dataDeIngresso.Substring(6, 4)}")</u></b>
                     </label>
                 </div>
             </div>

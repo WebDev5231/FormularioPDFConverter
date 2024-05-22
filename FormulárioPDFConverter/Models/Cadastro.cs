@@ -29,10 +29,6 @@ namespace FormulárioPDFConverter.Models
         [Column("ID_Sub_Publico")]
         public string ID_Sub_Publico { get; set; }
 
-        public List<SelectListItem> Categorias { get; set; }
-        public string CategoriaSelecionada { get; set; }
-        public int id_cat_assoc { get; set; }
-
         [Column("Filial")]
         public bool Filial { get; set; }
 

@@ -35,12 +35,6 @@
     <br />
 
     <div class="row">
-        <div class="col-md-12">
-            <label class="col-md-12"><b>Categoria: </b></label>
-            @Model.CategoriaSelecionada
-        </div>
-
-        <br />
         <div class="col-md-6">
             <label><b>Razão Social: </b></label>
             @Model.Razao
@@ -159,7 +153,7 @@
         <div class="row" style="text-align:center;">
             <div class="form-group col-md-12" style="margin-left:60%; margin-top:-2%;">
                 <label class="form-control-label">
-                    <b><u>@($"{Model.Cidade} - {Model.Estado}, {Model.dataDeIngresso.Substring(0, 2)} de {@DateTime.ParseExact(Model.dataDeIngresso, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM").ToUpper()} de {Model.dataDeIngresso.Substring(6, 4)}")</u></b>
+                    <b><u>@($"{Model.Cidade} - {Model.Estado}, {Model.dataDeIngresso.Substring(0, 2)} de {DateTime.ParseExact(Model.dataDeIngresso, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture).ToString("MMMM", System.Globalization.CultureInfo.CreateSpecificCulture("pt-BR")).ToUpper()} de {Model.dataDeIngresso.Substring(6, 4)}")</u></b>
                 </label>
             </div>
         </div>

@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -34,15 +35,6 @@ namespace FormulárioPDFConverter.Controllers
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
-            cadastro.Categorias = new List<SelectListItem>
-            {
-            new SelectListItem { Text = "FABRICANTE", Value = "FABRICANTE" },
-            new SelectListItem { Text = "SISTEMISTA", Value = "SISTEMISTA" },
-            new SelectListItem { Text = "COMPONENTES", Value = "COMPONENTES" },
-            new SelectListItem { Text = "", Value = "" }
-            };
-            cadastro.CategoriaSelecionada = GetCategoriaById(cadastro.id_cat_assoc);
-
             cadastro.PortesEmpresa = new List<SelectListItem>
             {
             new SelectListItem { Text = "Micro", Value = "micro" },
@@ -53,7 +45,7 @@ namespace FormulárioPDFConverter.Controllers
             };
             cadastro.PorteEmpresaSelecionado = GetPorteEmpresa(cadastro.porteempresa);
 
-            cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy");
+            cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
             return View(cadastro);
         }
@@ -121,7 +113,7 @@ namespace FormulárioPDFConverter.Controllers
         {
             try
             {
-                model.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy");
+                model.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
                 var report = new Rotativa.ActionAsPdf("Ficha", model);
 
@@ -134,9 +126,8 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
-        public ActionResult uploadFile()
+        public ActionResult uploadFile(string ID_Empresa)
         {
-            var ID_Empresa = "10";
             Session["ID_Empresa"] = ID_Empresa;
 
             var dados = GetCadastroById(ID_Empresa);
@@ -155,6 +146,7 @@ namespace FormulárioPDFConverter.Controllers
                 try
                 {
                     DateTime DataInclusao = DateTime.Now;
+
                     string cnpjFormatado = Regex.Replace(CNPJ, "[^0-9]", "");
                     documentType = documentType + cnpjFormatado;
 
@@ -172,14 +164,17 @@ namespace FormulárioPDFConverter.Controllers
 
                     InsertFilesLogs(uploadFile);
 
-                    return Content("<script language='javascript' type='text/javascript'>alert('Documento enviado com sucesso!'); window.location.href = '/Home/uploadFile';</script>");
+                    TempData["AlertMessage"] = "Documento enviado com sucesso!";
+                    return RedirectToAction("UploadFile", "Home", new { ID_Empresa });
                 }
                 catch (Exception ex)
                 {
-                    return Content($"Erro ao fazer o upload do arquivo: {ex.Message}");
+                    TempData["AlertMessage"] = $"Erro ao fazer o upload do arquivo: {ex.Message}";
+                    return RedirectToAction("UploadFile", "Home", new { ID_Empresa });
                 }
             }
-            return Content("Nenhum arquivo selecionado");
+            TempData["AlertMessage"] = "Nenhum arquivo selecionado";
+            return RedirectToAction("UploadFile", "Home", new { ID_Empresa });
         }
     }
 }
