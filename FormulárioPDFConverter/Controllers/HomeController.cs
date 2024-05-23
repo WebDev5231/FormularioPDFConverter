@@ -96,17 +96,6 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
-        private string GetCategoriaById(int categoria)
-        {
-            switch (categoria)
-            {
-                case 1: return "FABRICANTE";
-                case 2: return "SISTEMISTA";
-                case 3: return "COMPONENTES";
-                default: return "";
-            }
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult FichaIncricao(Cadastro model)
@@ -131,15 +120,12 @@ namespace FormulárioPDFConverter.Controllers
             if (Session["ID_Empresa"] == null || Session["ID_Empresa"].ToString() != ID_Empresa)
             {
                 Session["ID_Empresa"] = ID_Empresa;
-
-                var dados = GetCadastroById(ID_Empresa);
-                TempData["dados"] = dados;
-
-                return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
             }
 
-            var cadastro = GetCadastroById(ID_Empresa);
-            return View(cadastro);
+            var dados = GetCadastroById(ID_Empresa);
+            TempData["dados"] = dados;
+
+            return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
         }
 
 
