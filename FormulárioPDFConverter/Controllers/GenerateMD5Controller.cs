@@ -18,29 +18,31 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "ID_Empresa inválido");
             }
 
-            var palavraChave = "ANFIR306";
-            var combinacao = ID_Empresa + palavraChave;
+            if (Session["hash"] == null)
+            {
+                var palavraChave = "ANFIR306";
+                var combinacao = ID_Empresa + palavraChave;
 
-            var hash = GenerateMD5(combinacao);
+                var hash = GenerateMD5(combinacao);
+                Session["hash"] = hash;
+            }
 
-            TempData["hash"] = hash;
-
-            return RedirectToAction("displayHash", new { hash = hash });
+            return RedirectToAction("displayHash");
         }
 
-        public ActionResult displayHash(string hash)
+        public ActionResult displayHash()
         {
+            var hash = Session["hash"] as string;
+            var dados = TempData["dados"] as Cadastro;
+
             if (string.IsNullOrEmpty(hash))
             {
                 return new HttpStatusCodeResult(400, "Hash is required");
             }
 
-            hash = TempData["hash"] as string ?? hash;
-
-            var dados = TempData["dados"] as Cadastro;
             if (dados == null)
             {
-                return new HttpStatusCodeResult(500, "Dados não encontrados");
+                dados = new Cadastro(); 
             }
 
             ViewBag.MD5Hash = hash;

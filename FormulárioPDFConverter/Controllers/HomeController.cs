@@ -128,14 +128,20 @@ namespace FormulárioPDFConverter.Controllers
 
         public ActionResult uploadFile(string ID_Empresa)
         {
-            Session["ID_Empresa"] = ID_Empresa;
+            if (Session["ID_Empresa"] == null || Session["ID_Empresa"].ToString() != ID_Empresa)
+            {
+                Session["ID_Empresa"] = ID_Empresa;
 
-            var dados = GetCadastroById(ID_Empresa);
+                var dados = GetCadastroById(ID_Empresa);
+                TempData["dados"] = dados;
 
-            TempData["dados"] = dados;
+                return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
+            }
 
-            return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
+            var cadastro = GetCadastroById(ID_Empresa);
+            return View(cadastro);
         }
+
 
         [HttpPost]
         [ValidateAntiForgeryToken]
