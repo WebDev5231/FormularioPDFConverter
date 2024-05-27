@@ -6,6 +6,8 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
 using Dapper;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -54,14 +56,24 @@ namespace FormulárioPDFConverter.Controllers
                 dados = GetCadastroById(ID_Empresa);
             }
 
-            if (dados == null)
-            {
-                return new HttpStatusCodeResult(500, "Dados não encontrados");
-            }
-
             ViewBag.MD5Hash = hash;
 
-            return View("~/Views/Home/uploadFile.cshtml", dados);
+            var tiposDocumentos = new List<string>
+            {
+                "Ficha-de-Inscrição-",
+                "Contrato-Social-",
+                "Cartão-CNPJ-",
+                "Procuração-"
+            };
+
+            var dadosCompletos = new DocumentosViewModel
+            {
+                DadosCadastro = dados,
+                Documentos = GetDocumentosById(ID_Empresa),
+                TiposDocumentos = tiposDocumentos
+            };
+
+            return View("~/Views/Home/uploadFile.cshtml", dadosCompletos);
         }
 
         private string GenerateMD5(string input)
@@ -86,6 +98,15 @@ namespace FormulárioPDFConverter.Controllers
             {
                 string sql = @"SELECT * FROM cadastro Where ID_Empresa = @ID_Empresa";
                 return connection.QueryFirstOrDefault<Cadastro>(sql, new { ID_Empresa = ID_Empresa });
+            }
+        }
+
+        public List<UploadFiles> GetDocumentosById(string ID_Empresa)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                string sql = @"SELECT * FROM UploadFiles Where ID_Empresa = @ID_Empresa";
+                return connection.Query<UploadFiles>(sql, new { ID_Empresa = ID_Empresa }).ToList();
             }
         }
     }

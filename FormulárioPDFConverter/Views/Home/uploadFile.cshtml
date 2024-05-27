@@ -1,4 +1,4 @@
-﻿@model FormulárioPDFConverter.Models.Cadastro
+﻿@model FormulárioPDFConverter.Models.DocumentosViewModel
 
 <!DOCTYPE html>
 <html>
@@ -7,15 +7,36 @@
     <meta charset="utf-8" />
     @{
         ViewBag.Title = "Enviar Documentos:";
+        var ID_Empresa = Session["ID_Empresa"];
     }
+    <style>
+        .document-step {
+            margin-bottom: 1em;
+        }
+    </style>
 </head>
 <body style="background-color: #6a6a6a63;">
 
-    <br />
-    <br />
-    <br />
+    <div class="container mt-3">
+        <div class="alert alert-info">
+            <p class="document-step">
+                <strong>1º Passo:</strong> Preencher e assinar a ficha de inscrição:
+                @Html.ActionLink("Clique aqui", "FichaIncricao", "Home", new { ID_Empresa = ID_Empresa }, new { @style = "text-decoration: underline;" })
+            </p>
+            <p class="document-step">
+                <strong>2º Passo:</strong> Incluir a ficha de inscrição em <b><i>"Incluir Documentos"</i></b>
+            </p>
+            <p class="document-step">
+                <strong>3º Passo:</strong> Incluir demais documentos em <b><i>"Incluir Documentos"</i></b>
+            </p>
+            <p class="document-step">
+                <b>Incluir:</b> Contrato social; <br>
+                Cartão CNPJ.
+            </p>
+        </div>
+    </div>
 
-    <div class="container mt-4">
+    <div class="container mt-3">
         <div class="card" style="border-radius: 1.25rem;">
             <div class="card-header" style="background-color: #00000099;">
                 <h3 class="mb-0" style="color: #fcfcff"><b>Incluir Documentos:</b></h3>
@@ -35,10 +56,11 @@
                         <option value="Ficha-de-Inscricao-">Ficha de Inscrição</option>
                         <option value="Contrato-Social-">Contrato Social</option>
                         <option value="Cartao-CNPJ-">Cartão CNPJ</option>
+                        <option value="Cartao-CNPJ-">Procuracao</option>
                     </select>
 
-                    @Html.HiddenFor(m => m.CNPJ)
-                    @Html.HiddenFor(m => m.ID_Empresa)
+                    @Html.HiddenFor(m => m.DadosCadastro.CNPJ)
+                    @Html.HiddenFor(m => m.DadosCadastro.ID_Empresa)
 
                     <br />
                     <br />
@@ -50,19 +72,69 @@
         </div>
     </div>
 
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
-    <br />
+    <div class="container mt-4">
+        <div class="card" style="border-radius: 1.25rem;">
+            <div class="card-header" style="background-color: #00000099;">
+                <h3 class="mb-0" style="color: #fcfcff"><b>Documentos:</b></h3>
+            </div>
+            <div class="card-body">
+                @if (Model.Documentos.Any())
+                {
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>CNPJ</th>
+                                <th>Documentos</th>
+                                <th>Data de Inclusão</th>
+                                <th>Documentos Pendentes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var tipoDocumento in Model.TiposDocumentos)
+                            {
+                                <tr>
+                                    <td>@Model.DadosCadastro.CNPJ</td>
+                                    <td>@tipoDocumento.Replace("-", " ")</td>
+                                    <td>
+                                        @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
+                                        {
+                                            var documento = Model.Documentos.First(doc => doc.TipoDocumento.StartsWith(tipoDocumento));
+                                            if (documento.DataInclusao != null)
+                                            {
+                                                <span>@documento.DataInclusao</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Pendente</span>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <span>Pendente</span>
+                                        }
+                                    </td>
+                                    <td>
+                                        @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
+                                        {
+                                            <span>Enviado</span>
+                                        }
+                                        else
+                                        {
+                                            <span>Pendente</span>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                }
+                else
+                {
+                    <p><b>Nenhum Documento Enviado</b></p>
+                }
+            </div>
+        </div>
+    </div>
 
     @if (TempData["AlertMessage"] != null)
     {

@@ -128,7 +128,6 @@ namespace FormulárioPDFConverter.Controllers
             return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UploadFile(HttpPostedFileBase fileUpload, string CNPJ, string ID_Empresa, string documentType)

@@ -183,5 +183,6 @@ namespace FormulárioPDFConverter.Models
         public string cargoRepresentante2 { get; set; }
         public string inscricaoEstadual { get; set; }
         public string dataDeIngresso { get; set; }
+        public List<Documentos> Documentos { get; set; }
     }
 }
