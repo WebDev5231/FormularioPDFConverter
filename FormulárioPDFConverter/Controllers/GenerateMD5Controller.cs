@@ -60,18 +60,28 @@ namespace FormulárioPDFConverter.Controllers
 
             var tiposDocumentos = new List<string>
             {
-                "Ficha-de-Inscrição-",
+                "Ficha-de-Inscricao-",
                 "Contrato-Social-",
-                "Cartão-CNPJ-",
-                "Procuração-"
+                "Cartao-CNPJ-",
+                "Procuracao-"
             };
+
+            var documentos = GetDocumentosById(ID_Empresa);
 
             var dadosCompletos = new DocumentosViewModel
             {
                 DadosCadastro = dados,
-                Documentos = GetDocumentosById(ID_Empresa),
+                Documentos = documentos,
                 TiposDocumentos = tiposDocumentos
             };
+
+            // Debugging output
+            Console.WriteLine("ID_Empresa: " + ID_Empresa);
+            Console.WriteLine("Documentos count: " + documentos.Count);
+            foreach (var doc in documentos)
+            {
+                Console.WriteLine("Documento: " + doc.TipoDocumento);
+            }
 
             return View("~/Views/Home/uploadFile.cshtml", dadosCompletos);
         }
@@ -105,9 +115,10 @@ namespace FormulárioPDFConverter.Controllers
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                string sql = @"SELECT * FROM UploadFiles Where ID_Empresa = @ID_Empresa";
+                string sql = @"SELECT * FROM UploadFiles WHERE ID_Empresa = @ID_Empresa";
                 return connection.Query<UploadFiles>(sql, new { ID_Empresa = ID_Empresa }).ToList();
             }
         }
+
     }
 }

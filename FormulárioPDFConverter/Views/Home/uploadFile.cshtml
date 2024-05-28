@@ -64,7 +64,7 @@
                         <option value="Ficha-de-Inscricao-">Ficha de Inscrição</option>
                         <option value="Contrato-Social-">Contrato Social</option>
                         <option value="Cartao-CNPJ-">Cartão CNPJ</option>
-                        <option value="Cartao-CNPJ-">Procuracao</option>
+                        <option value="Procuracao-">Procuracao</option>
                     </select>
 
                     @Html.Hidden("CNPJ", Model.DadosCadastro.CNPJ)
@@ -80,13 +80,14 @@
         </div>
     </div>
 
+
     <div class="container mt-4">
         <div class="card" style="border-radius: 1.25rem;">
             <div class="card-header" style="background-color: #00000099;">
                 <h3 class="mb-0" style="color: #fcfcff"><b>Documentos:</b></h3>
             </div>
             <div class="card-body">
-                @if (Model.Documentos.Any())
+                @if (Model.TiposDocumentos.Any())
                 {
                     <table class="table table-bordered">
                         <thead>
@@ -94,52 +95,41 @@
                                 <th>CNPJ</th>
                                 <th>Documentos</th>
                                 <th>Data de Inclusão</th>
-                                <th>Documentos Pendentes</th>
+                                <th>Status</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach (var tipoDocumento in Model.TiposDocumentos)
                             {
+                                var cnpjFormatado = Model.DadosCadastro.CNPJ.Replace(".", "").Replace("/", "").Replace("-", "");
+                                var documentoEnviado = Model.Documentos.FirstOrDefault(doc => doc.TipoDocumento.Equals(tipoDocumento + cnpjFormatado, StringComparison.InvariantCultureIgnoreCase));
+
                                 <tr>
                                     <td><b>@Model.DadosCadastro.CNPJ</b></td>
                                     <td><b>@tipoDocumento.Replace("-", " ")</b></td>
                                     <td>
-                                        @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
+                                        @if (documentoEnviado != null && documentoEnviado.DataInclusao != null)
                                         {
-                                            var documento = Model.Documentos.First(doc => doc.TipoDocumento.StartsWith(tipoDocumento));
-                                            if (documento.DataInclusao != null)
-                                            {
-                                                <span class="enviadaoBlue">@documento.DataInclusao</span>
-                                            }
-                                            else
-                                            {
-                                                <span class="pendenteRed">Pendente</span>
-                                            }
-                                        }
+                                            <span class="enviadaoBlue">@documentoEnviado.DataInclusao</span><br /> }
                                         else
                                         {
-                                            <span class="pendenteRed">Pendente</span>
-                                        }
+                                            <span class="pendenteRed">Pendente</span>}
                                     </td>
                                     <td>
-                                        @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
+                                        @if (documentoEnviado != null)
                                         {
-                                            <span class="enviadaoBlue">Enviado</span>
-                                        }
+                                            <span class="enviadaoBlue">Enviado</span> }
                                         else
                                         {
-                                            <span class="pendenteRed">Pendente</span>
-                                        }
+                                            <span class="pendenteRed">Pendente</span>}
                                     </td>
                                 </tr>
                             }
                         </tbody>
-                    </table>
-                }
+                    </table> }
                 else
                 {
-                    <p class="pendenteRed"><b>Nenhum Documento Enviado</b></p>
-                }
+                    <p class="pendenteRed"><b>Nenhum Tipo de Documento Definido</b></p>}
             </div>
         </div>
     </div>
