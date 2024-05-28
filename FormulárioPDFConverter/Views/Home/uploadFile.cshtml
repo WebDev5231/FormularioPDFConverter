@@ -67,8 +67,8 @@
                         <option value="Cartao-CNPJ-">Procuracao</option>
                     </select>
 
-                    @Html.HiddenFor(m => m.DadosCadastro.CNPJ)
-                    @Html.HiddenFor(m => m.DadosCadastro.ID_Empresa)
+                    @Html.Hidden("CNPJ", Model.DadosCadastro.CNPJ)
+                    @Html.Hidden("ID_Empresa", Model.DadosCadastro.ID_Empresa)
 
                     <br />
                     <br />
@@ -138,7 +138,7 @@
                 }
                 else
                 {
-                    <p><b>Nenhum Documento Enviado</b></p>
+                    <p class="pendenteRed"><b>Nenhum Documento Enviado</b></p>
                 }
             </div>
         </div>
