@@ -13,6 +13,14 @@
         .document-step {
             margin-bottom: 1em;
         }
+
+        .pendenteRed {
+            color: #ff0000;
+        }
+
+        .enviadaoBlue {
+            color: #111df3;
+        }
     </style>
 </head>
 <body style="background-color: #6a6a6a63;">
@@ -93,34 +101,34 @@
                             @foreach (var tipoDocumento in Model.TiposDocumentos)
                             {
                                 <tr>
-                                    <td>@Model.DadosCadastro.CNPJ</td>
-                                    <td>@tipoDocumento.Replace("-", " ")</td>
+                                    <td><b>@Model.DadosCadastro.CNPJ</b></td>
+                                    <td><b>@tipoDocumento.Replace("-", " ")</b></td>
                                     <td>
                                         @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
                                         {
                                             var documento = Model.Documentos.First(doc => doc.TipoDocumento.StartsWith(tipoDocumento));
                                             if (documento.DataInclusao != null)
                                             {
-                                                <span>@documento.DataInclusao</span>
+                                                <span class="enviadaoBlue">@documento.DataInclusao</span>
                                             }
                                             else
                                             {
-                                                <span>Pendente</span>
+                                                <span class="pendenteRed">Pendente</span>
                                             }
                                         }
                                         else
                                         {
-                                            <span>Pendente</span>
+                                            <span class="pendenteRed">Pendente</span>
                                         }
                                     </td>
                                     <td>
                                         @if (Model.Documentos.Any(doc => doc.TipoDocumento.StartsWith(tipoDocumento)))
                                         {
-                                            <span>Enviado</span>
+                                            <span class="enviadaoBlue">Enviado</span>
                                         }
                                         else
                                         {
-                                            <span>Pendente</span>
+                                            <span class="pendenteRed">Pendente</span>
                                         }
                                     </td>
                                 </tr>
