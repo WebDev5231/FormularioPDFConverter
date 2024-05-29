@@ -104,24 +104,33 @@
                                 var cnpjFormatado = Model.DadosCadastro.CNPJ.Replace(".", "").Replace("/", "").Replace("-", "");
                                 var documentoEnviado = Model.Documentos.FirstOrDefault(doc => doc.TipoDocumento.Equals(tipoDocumento + cnpjFormatado, StringComparison.InvariantCultureIgnoreCase));
 
+                                var documentoLink = documentoEnviado != null ? Url.Content("~/Uploads/" + documentoEnviado.TipoDocumento + Path.GetExtension(documentoEnviado.TipoDocumento)) : null;
+
                                 <tr>
                                     <td><b>@Model.DadosCadastro.CNPJ</b></td>
-                                    <td><b>@tipoDocumento.Replace("-", " ")</b></td>
+                                    <td>
+                                        @if (documentoEnviado != null)
+                                        {
+                                            <a href="@documentoLink" target="_blank"><b>@tipoDocumento.Replace("-", " ")</b></a> }
+                                        else
+                                        {
+                                            <b>@tipoDocumento.Replace("-", " ")</b>}
+                                    </td>
                                     <td>
                                         @if (documentoEnviado != null && documentoEnviado.DataInclusao != null)
                                         {
-                                            <span class="enviadaoBlue">@documentoEnviado.DataInclusao</span><br /> }
+                                            <span class="enviadaoBlue"><b>@documentoEnviado.DataInclusao</b></span><br /> }
                                         else
                                         {
-                                            <span class="pendenteRed">Pendente</span>}
+                                            <span class="pendenteRed"><b>Pendente</b></span>}
                                     </td>
                                     <td>
                                         @if (documentoEnviado != null)
                                         {
-                                            <span class="enviadaoBlue">Enviado</span> }
+                                            <span class="enviadaoBlue"><b>Enviado</b></span> }
                                         else
                                         {
-                                            <span class="pendenteRed">Pendente</span>}
+                                            <span class="pendenteRed"><b>Pendente</b></span>}
                                     </td>
                                 </tr>
                             }
@@ -129,7 +138,8 @@
                     </table> }
                 else
                 {
-                    <p class="pendenteRed"><b>Nenhum Tipo de Documento Definido</b></p>}
+                    <p class="pendenteRed"><b>Nenhum Tipo de Documento Encontrado</b></p>
+                }
             </div>
         </div>
     </div>
