@@ -75,14 +75,6 @@ namespace FormulárioPDFConverter.Controllers
                 TiposDocumentos = tiposDocumentos
             };
 
-            // Debugging output
-            Console.WriteLine("ID_Empresa: " + ID_Empresa);
-            Console.WriteLine("Documentos count: " + documentos.Count);
-            foreach (var doc in documentos)
-            {
-                Console.WriteLine("Documento: " + doc.TipoDocumento);
-            }
-
             return View("~/Views/Home/uploadFile.cshtml", dadosCompletos);
         }
 

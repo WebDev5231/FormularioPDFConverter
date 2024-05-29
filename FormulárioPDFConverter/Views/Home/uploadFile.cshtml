@@ -102,9 +102,9 @@
                             @foreach (var tipoDocumento in Model.TiposDocumentos)
                             {
                                 var cnpjFormatado = Model.DadosCadastro.CNPJ.Replace(".", "").Replace("/", "").Replace("-", "");
-                                var documentoEnviado = Model.Documentos.FirstOrDefault(doc => doc.TipoDocumento.Equals(tipoDocumento + cnpjFormatado, StringComparison.InvariantCultureIgnoreCase));
+                                var documentoEnviado = Model.Documentos.FirstOrDefault(doc => doc.NomeArquivo.Equals(tipoDocumento + cnpjFormatado, StringComparison.InvariantCultureIgnoreCase));
 
-                                var documentoLink = documentoEnviado != null ? Url.Content("~/Uploads/" + documentoEnviado.TipoDocumento + ".pdf") : null;
+                                var documentoLink = documentoEnviado != null ? Url.Content("~/Uploads/" + documentoEnviado.NomeArquivo + ".pdf") : null;
 
                                 <tr>
                                     <td><b>@Model.DadosCadastro.CNPJ</b></td>

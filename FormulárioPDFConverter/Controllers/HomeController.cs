@@ -149,7 +149,7 @@ namespace FormulárioPDFConverter.Controllers
                     {
                         CNPJ = cnpjFormatado,
                         ID_Empresa = ID_Empresa,
-                        TipoDocumento = documentType,
+                        NomeArquivo = documentType,
                         DataInclusao = DataInclusao
                     };
 

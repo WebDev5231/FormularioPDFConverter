@@ -19,7 +19,7 @@ namespace FormulárioPDFConverter.Models
         public string ID_Empresa { get; set; }
 
         [Required]
-        public string TipoDocumento { get; set; }
+        public string NomeArquivo { get; set; }
 
         [Required]
         public DateTime DataInclusao { get; set; }
