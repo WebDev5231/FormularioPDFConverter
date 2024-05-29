@@ -77,8 +77,8 @@ namespace FormulárioPDFConverter.Controllers
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                string sql = @"INSERT INTO UploadFiles (CNPJ, ID_Empresa, TipoDocumento, DataInclusao)
-                       VALUES (@CNPJ, @ID_Empresa, @TipoDocumento, @DataInclusao)";
+                string sql = @"INSERT INTO UploadFiles (CNPJ, ID_Empresa, NomeArquivo, DataInclusao)
+                       VALUES (@CNPJ, @ID_Empresa, @NomeArquivo, @DataInclusao)";
 
                 connection.Execute(sql, uploadFile);
             }
