@@ -1,14 +1,16 @@
-﻿using FormulárioPDFConverter.Data.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace FormulárioPDFConverter.Models
+namespace FormulárioPDFConverter.Data.Models
 {
     [Table("cadastro")]
-    public class Cadastro
+    public class CadastroData
     {
         [Column("[ID_Empresa]")]
         [Key]
@@ -184,6 +186,6 @@ namespace FormulárioPDFConverter.Models
         public string cargoRepresentante2 { get; set; }
         public string inscricaoEstadual { get; set; }
         public string dataDeIngresso { get; set; }
-        public List<Documentos> Documentos { get; set; }
+        public List<DocumentosData> Documentos { get; set; }
     }
 }

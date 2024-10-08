@@ -1,13 +1,15 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FormulárioPDFConverter.Models
+namespace FormulárioPDFConverter.Data.Models
 {
     [Table("UploadFiles")]
-    public class UploadFiles
+    public class UploadFilesData
     {
         [Key]
         public int ID { get; set; }
@@ -24,6 +26,7 @@ namespace FormulárioPDFConverter.Models
         [Required]
         public DateTime DataInclusao { get; set; }
 
+        [Required]
         public bool EmailEnviado { get; set; }
     }
 }

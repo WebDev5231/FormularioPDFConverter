@@ -8,17 +8,13 @@ using System.Web.Mvc;
 using Dapper;
 using System.Collections.Generic;
 using System.Linq;
+using FormulárioPDFConverter.Data;
+using FormulárioPDFConverter.Data.Models;
 
 namespace FormulárioPDFConverter.Controllers
 {
     public class GenerateMD5Controller : Controller
     {
-        private string connectionString;
-
-        public GenerateMD5Controller()
-        {
-            connectionString = ConfigurationManager.ConnectionStrings["formPDFConverter"].ConnectionString;
-        }
 
         // GET: GenerateMD5/uploadFile
         public ActionResult uploadFile(string ID_Empresa)
@@ -46,14 +42,15 @@ namespace FormulárioPDFConverter.Controllers
 
             if (string.IsNullOrEmpty(hash) || string.IsNullOrEmpty(ID_Empresa))
             {
-                return new HttpStatusCodeResult(400, "ID_Empresa ou Hash is required");
+                return new HttpStatusCodeResult(400, "ID_Empresa ou Hash é necessário");
             }
 
-            var dados = TempData["dados"] as Cadastro;
+            var dados = TempData["dados"] as FormulárioPDFConverter.Data.Models.CadastroData;
 
+            var getValue = new dbQuery();
             if (dados == null)
             {
-                dados = GetCadastroById(ID_Empresa);
+                dados = getValue.GetCadastroById(ID_Empresa);
             }
 
             ViewBag.MD5Hash = hash;
@@ -66,14 +63,23 @@ namespace FormulárioPDFConverter.Controllers
                 "Procuracao-"
             };
 
-            var documentos = GetDocumentosById(ID_Empresa);
+            var documentosData = getValue.GetDocumentosById(ID_Empresa);
+
+            // Mapeia os documentos usando o método manual
+            var documentos = documentosData.Select(MapToUploadFiles).ToList();
 
             var dadosCompletos = new DocumentosViewModel
             {
-                DadosCadastro = dados,
+                DadosCadastro = MapToCadastro(dados), // Mapeia os dados de CadastroData para Cadastro
                 Documentos = documentos,
                 TiposDocumentos = tiposDocumentos
             };
+
+            if (documentos.Count >= 4)
+            {
+                var sendMail = new EmailService();
+                sendMail.EnviarEmail(dados.CNPJ, dados.Razao, ID_Empresa);
+            }
 
             return View("~/Views/Home/uploadFile.cshtml", dadosCompletos);
         }
@@ -94,23 +100,28 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
-        private Cadastro GetCadastroById(string ID_Empresa)
+        private UploadFiles MapToUploadFiles(UploadFilesData data)
         {
-            using (var connection = new SqlConnection(connectionString))
+            return new UploadFiles
             {
-                string sql = @"SELECT * FROM cadastro Where ID_Empresa = @ID_Empresa";
-                return connection.QueryFirstOrDefault<Cadastro>(sql, new { ID_Empresa = ID_Empresa });
-            }
+                ID = data.ID,
+                NomeArquivo = data.NomeArquivo,
+                ID_Empresa = data.ID_Empresa,
+                DataInclusao = data.DataInclusao,
+                EmailEnviado = data.EmailEnviado,
+
+            };
         }
 
-        public List<UploadFiles> GetDocumentosById(string ID_Empresa)
+        private Cadastro MapToCadastro(CadastroData data)
         {
-            using (var connection = new SqlConnection(connectionString))
+            return new Cadastro
             {
-                string sql = @"SELECT * FROM UploadFiles WHERE ID_Empresa = @ID_Empresa";
-                return connection.Query<UploadFiles>(sql, new { ID_Empresa = ID_Empresa }).ToList();
-            }
+                CNPJ = data.CNPJ,
+                Razao = data.Razao,
+                ID_Empresa = data.ID_Empresa,
+            };
         }
-
     }
+
 }
