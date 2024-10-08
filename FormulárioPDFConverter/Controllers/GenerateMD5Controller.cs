@@ -65,12 +65,11 @@ namespace FormulárioPDFConverter.Controllers
 
             var documentosData = getValue.GetDocumentosById(ID_Empresa);
 
-            // Mapeia os documentos usando o método manual
             var documentos = documentosData.Select(MapToUploadFiles).ToList();
 
             var dadosCompletos = new DocumentosViewModel
             {
-                DadosCadastro = MapToCadastro(dados), // Mapeia os dados de CadastroData para Cadastro
+                DadosCadastro = MapToCadastro(dados),
                 Documentos = documentos,
                 TiposDocumentos = tiposDocumentos
             };
@@ -109,7 +108,6 @@ namespace FormulárioPDFConverter.Controllers
                 ID_Empresa = data.ID_Empresa,
                 DataInclusao = data.DataInclusao,
                 EmailEnviado = data.EmailEnviado,
-
             };
         }
 

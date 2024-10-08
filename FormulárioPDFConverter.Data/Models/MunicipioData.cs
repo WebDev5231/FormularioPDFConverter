@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace FormulárioPDFConverter.Models
+namespace FormulárioPDFConverter.Data.Models
 {
     [Table("municipios")]
-    public class Municipio
+    public class MunicipioData
     {
         public string munMUNICIP { get; set; }
         public string munEST { get; set; }

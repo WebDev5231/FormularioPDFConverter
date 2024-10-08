@@ -26,7 +26,6 @@ namespace FormulárioPDFConverter.Data.Models
         [Required]
         public DateTime DataInclusao { get; set; }
 
-        [Required]
-        public bool EmailEnviado { get; set; }
+        public bool EmailEnviado { get; set; } = false;
     }
 }

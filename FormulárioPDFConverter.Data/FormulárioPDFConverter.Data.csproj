@@ -70,6 +70,7 @@
     <Compile Include="dbQuery.cs" />
     <Compile Include="Models\CadastroData.cs" />
     <Compile Include="Models\DocumentosData.cs" />
+    <Compile Include="Models\MunicipioData.cs" />
     <Compile Include="Models\UploadFilesData.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

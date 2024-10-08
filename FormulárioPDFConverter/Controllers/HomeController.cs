@@ -9,29 +9,28 @@ using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using FormulárioPDFConverter.Data;
+using FormulárioPDFConverter.Data.Models;
 
 namespace FormulárioPDFConverter.Controllers
 {
     public class HomeController : Controller
     {
-        private string connectionString;
-        public HomeController()
-        {
-            connectionString = ConfigurationManager.ConnectionStrings["formPDFConverter"].ConnectionString;
-        }
 
         public ActionResult FichaIncricao()
         {
-            var ID_Empresa = Session["ID_Empresa"]?.ToString();
+            var idEmpresa = (string)Session["ID_Empresa"]?.ToString();
 
-            if (string.IsNullOrEmpty(ID_Empresa))
+            if (string.IsNullOrEmpty(idEmpresa))
             {
                 return new HttpStatusCodeResult(400, "access denied");
             }
 
-            var cadastro = GetCadastroById(ID_Empresa);
+            var queryOperacoes = new dbQuery();
 
-            var cidade = GetMunicipioById(cadastro.ID_Cidade);
+            var cadastro = queryOperacoes.GetCadastroById(idEmpresa);
+
+            var cidade = queryOperacoes.GetMunicipioById(cadastro.ID_Cidade);
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
@@ -43,7 +42,7 @@ namespace FormulárioPDFConverter.Controllers
             new SelectListItem { Text = "Grande", Value = "grande" },
             new SelectListItem {Text = "", Value="" }
             };
-            cadastro.PorteEmpresaSelecionado = GetPorteEmpresa(cadastro.porteempresa);
+            cadastro.PorteEmpresaSelecionado = queryOperacoes.GetPorteEmpresa(cadastro.porteempresa);
 
             cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
@@ -53,47 +52,6 @@ namespace FormulárioPDFConverter.Controllers
         public ActionResult Ficha(Cadastro model)
         {
             return View(model);
-        }
-
-        public Cadastro GetCadastroById(string ID_Empresa)
-        {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                string sql = @"SELECT * FROM cadastro Where ID_Empresa = @ID_Empresa";
-                return connection.QueryFirstOrDefault<Cadastro>(sql, new { ID_Empresa = ID_Empresa });
-            }
-        }
-
-        public Municipio GetMunicipioById(int ID_Cidade)
-        {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                string sql = @"SELECT * FROM municipios WHERE munCOD = @ID_Cidade";
-                return connection.QueryFirstOrDefault<Municipio>(sql, new { ID_Cidade = ID_Cidade });
-            }
-        }
-
-        public void InsertFilesLogs(UploadFiles uploadFile)
-        {
-            using (var connection = new SqlConnection(connectionString))
-            {
-                string sql = @"INSERT INTO UploadFiles (CNPJ, ID_Empresa, NomeArquivo, DataInclusao)
-                       VALUES (@CNPJ, @ID_Empresa, @NomeArquivo, @DataInclusao)";
-
-                connection.Execute(sql, uploadFile);
-            }
-        }
-
-        private string GetPorteEmpresa(int porteempresa)
-        {
-            switch (porteempresa)
-            {
-                case 1: return "Micro";
-                case 2: return "Pequena";
-                case 3: return "Média";
-                case 4: return "Grande";
-                default: return "";
-            }
         }
 
         [HttpPost]
@@ -122,7 +80,9 @@ namespace FormulárioPDFConverter.Controllers
                 Session["ID_Empresa"] = ID_Empresa;
             }
 
-            var dados = GetCadastroById(ID_Empresa);
+            var queryOperacoes = new dbQuery();
+
+            var dados = queryOperacoes.GetCadastroById(ID_Empresa);
             TempData["dados"] = dados;
 
             return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
@@ -145,15 +105,17 @@ namespace FormulárioPDFConverter.Controllers
 
                     fileUpload.SaveAs(path);
 
-                    var uploadFile = new UploadFiles
+                    var uploadFile = new UploadFilesData
                     {
                         CNPJ = cnpjFormatado,
                         ID_Empresa = ID_Empresa,
                         NomeArquivo = documentType,
-                        DataInclusao = DataInclusao
+                        DataInclusao = DataInclusao,
+                        EmailEnviado = false
                     };
 
-                    InsertFilesLogs(uploadFile);
+                    var queryOperacoes = new dbQuery();
+                    queryOperacoes.InsertFilesLogs(uploadFile);
 
                     TempData["AlertMessage"] = "Documento enviado com sucesso!";
                     return RedirectToAction("UploadFile", "Home", new { ID_Empresa });

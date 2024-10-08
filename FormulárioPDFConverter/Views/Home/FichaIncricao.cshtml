@@ -1,4 +1,4 @@
-﻿@model FormulárioPDFConverter.Models.Cadastro
+﻿@model FormulárioPDFConverter.Data.Models.CadastroData
 
 @{
     ViewBag.Title = "Ficha de Inscrição";
@@ -98,7 +98,7 @@
             <div class="row">
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Data de fundação </b><span class="text-danger"> *</span></label>
-                    @Html.TextBoxFor(m => m.DataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano", @required = "required" })
+                    @Html.TextBoxFor(m => m.DataFundacao, new { @type = "date", @class = "form-control col-md-12", @placeholder = "Dia/Mês/Ano", @required = "required", @Value = Model.DataFundacao.ToString("yyyy-MM-dd") })
                 </div>
                 <div class="form-group col-md-3">
                     <label class="form-control-label"><b>Telefone Principal </b><span class="text-danger"> *</span></label>
