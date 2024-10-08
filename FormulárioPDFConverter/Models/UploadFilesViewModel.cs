@@ -7,7 +7,7 @@ using System.Web;
 namespace FormulárioPDFConverter.Models
 {
     [Table("UploadFiles")]
-    public class UploadFiles
+    public class UploadFilesViewModel
     {
         [Key]
         public int ID { get; set; }

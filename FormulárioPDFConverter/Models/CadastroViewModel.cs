@@ -8,7 +8,7 @@ using System.Web.Mvc;
 namespace FormulárioPDFConverter.Models
 {
     [Table("cadastro")]
-    public class Cadastro
+    public class CadastroViewModel
     {
         [Column("[ID_Empresa]")]
         [Key]
