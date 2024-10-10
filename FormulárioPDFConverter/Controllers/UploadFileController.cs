@@ -1,21 +1,29 @@
 ﻿using FormulárioPDFConverter.Models;
-using System.Security.Cryptography;
-using System.Text;
-using System.Web.Mvc;
 using System.Collections.Generic;
 using System.Linq;
-using FormulárioPDFConverter.Data;
+using System.Web.Mvc;
 using FormulárioPDFConverter.Model;
 using FormulárioPDFConverter.Model.Models;
 using FormulárioPDFConverter.Business;
 
 namespace FormulárioPDFConverter.Controllers
 {
-    public class GenerateMD5Controller : Controller
+    public class UploadFileController : Controller
     {
+        private readonly MD5ServiceBusiness _md5ServiceBusiness;
+        private readonly OperacoesBusiness _operacoesBusiness;
+        private readonly EmailServiceBusiness _emailServiceBusiness;
 
-        // GET: GenerateMD5/uploadFile
-        public ActionResult uploadFile(string ID_Empresa)
+        public UploadFileController()
+        {
+            _md5ServiceBusiness = new MD5ServiceBusiness();
+            _operacoesBusiness = new OperacoesBusiness();
+            _emailServiceBusiness = new EmailServiceBusiness();
+        }
+
+        // POST: UploadFile/uploadFile
+        [HttpGet]
+        public ActionResult UploadFile(string ID_Empresa)
         {
             if (string.IsNullOrEmpty(ID_Empresa))
             {
@@ -24,16 +32,16 @@ namespace FormulárioPDFConverter.Controllers
 
             Session["ID_Empresa"] = ID_Empresa;
 
-            // Gera o hash
             var palavraChave = "ANFIR306";
             var combinacao = ID_Empresa + palavraChave;
-            var hash = GenerateMD5(combinacao);
+            var hash = _md5ServiceBusiness.GenerateMD5(combinacao);
             Session["hash"] = hash;
 
-            return RedirectToAction("displayHash");
+            return RedirectToAction("DisplayHash");
         }
 
-        public ActionResult displayHash()
+        // GET: UploadFile/displayHash
+        public ActionResult DisplayHash()
         {
             var hash = Session["hash"] as string;
             var ID_Empresa = Session["ID_Empresa"] as string;
@@ -43,13 +51,8 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "ID_Empresa ou Hash é necessário");
             }
 
-            var dados = TempData["dados"] as FormulárioPDFConverter.Model.Models.Cadastro;
-
-            var getCadastro = new OperacoesBusiness();
-            if (dados == null)
-            {
-                dados = getCadastro.VerificarCadastroPorId(ID_Empresa);
-            }
+            var dados = TempData["dados"] as Cadastro ?? _operacoesBusiness.VerificarCadastroPorId(ID_Empresa);
+            TempData["dados"] = dados;
 
             ViewBag.MD5Hash = hash;
 
@@ -61,8 +64,7 @@ namespace FormulárioPDFConverter.Controllers
                 "Procuracao-"
             };
 
-            var documentosData = getCadastro.GetDocumentosPorId(ID_Empresa);
-
+            var documentosData = _operacoesBusiness.GetDocumentosPorId(ID_Empresa);
             var documentos = documentosData.Select(MapToUploadFiles).ToList();
 
             var dadosCompletos = new DocumentosViewModel
@@ -74,29 +76,13 @@ namespace FormulárioPDFConverter.Controllers
 
             if (documentos.Count >= 4)
             {
-                var sendMail = new EmailServiceBusiness();
-                sendMail.EnviarEmail(dados.CNPJ, dados.Razao, ID_Empresa);
+                _emailServiceBusiness.EnviarEmail(dados.CNPJ, dados.Razao, ID_Empresa);
             }
 
             return View("~/Views/Home/uploadFile.cshtml", dadosCompletos);
         }
 
-        private string GenerateMD5(string input)
-        {
-            using (var md5 = MD5.Create())
-            {
-                var inputBytes = Encoding.ASCII.GetBytes(input);
-                var hashBytes = md5.ComputeHash(inputBytes);
-
-                var sb = new StringBuilder();
-                foreach (var b in hashBytes)
-                {
-                    sb.Append(b.ToString("X2"));
-                }
-                return sb.ToString();
-            }
-        }
-
+        // Map para UploadFilesViewModel
         private UploadFilesViewModel MapToUploadFiles(UploadFiles dados)
         {
             return new UploadFilesViewModel
@@ -109,6 +95,7 @@ namespace FormulárioPDFConverter.Controllers
             };
         }
 
+        // Map para CadastroViewModel
         private CadastroViewModel MapToCadastro(Cadastro dados)
         {
             return new CadastroViewModel
@@ -119,5 +106,4 @@ namespace FormulárioPDFConverter.Controllers
             };
         }
     }
-
 }

@@ -128,8 +128,8 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\GenerateMD5Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UploadFileController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -306,14 +306,13 @@
       <Project>{5EAFCA30-C188-4D08-8B21-17FFB73523F4}</Project>
       <Name>FormulárioPDFConverter.Business</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FormulárioPDFConverter.Data\FormulárioPDFConverter.Data.csproj">
-      <Project>{67E4E561-92BB-4758-9816-9B0409EF4B20}</Project>
-      <Name>FormulárioPDFConverter.Data</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FormulárioPDFConverter.Model\FormulárioPDFConverter.Model.csproj">
       <Project>{31AE7EF6-C4EF-41A0-8AB9-2D326A96910F}</Project>
       <Name>FormulárioPDFConverter.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -1,16 +1,13 @@
 ﻿using FormulárioPDFConverter.Models;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Web.Mvc;
-using Dapper;
 using System;
 using System.Collections.Generic;
 using System.Web;
 using System.IO;
 using System.Text.RegularExpressions;
 using System.Globalization;
-using FormulárioPDFConverter.Data;
 using FormulárioPDFConverter.Model;
+using FormulárioPDFConverter.Business;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -26,11 +23,12 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "access denied");
             }
 
-            var queryOperacoes = new dbQueryData();
 
-            var cadastro = queryOperacoes.GetCadastroById(idEmpresa);
+            var queryOperacoes = new OperacoesBusiness();
 
-            var cidade = queryOperacoes.GetMunicipioById(cadastro.ID_Cidade);
+            var cadastro = queryOperacoes.VerificarCadastroPorId(idEmpresa);
+
+            var cidade = queryOperacoes.VerificarMunicipioPorId(cadastro.ID_Cidade);
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
@@ -42,7 +40,7 @@ namespace FormulárioPDFConverter.Controllers
             new SelectListItem { Text = "Grande", Value = "grande" },
             new SelectListItem {Text = "", Value="" }
             };
-            cadastro.PorteEmpresaSelecionado = queryOperacoes.GetPorteEmpresa(cadastro.porteempresa);
+            cadastro.PorteEmpresaSelecionado = queryOperacoes.BuscarPorteEmpresaPorId(cadastro.porteempresa);
 
             cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
@@ -73,21 +71,6 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
-        public ActionResult uploadFile(string ID_Empresa)
-        {
-            if (Session["ID_Empresa"] == null || Session["ID_Empresa"].ToString() != ID_Empresa)
-            {
-                Session["ID_Empresa"] = ID_Empresa;
-            }
-
-            var queryOperacoes = new dbQueryData();
-
-            var dados = queryOperacoes.GetCadastroById(ID_Empresa);
-            TempData["dados"] = dados;
-
-            return RedirectToAction("uploadFile", "GenerateMD5", new { ID_Empresa = ID_Empresa });
-        }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult UploadFile(HttpPostedFileBase fileUpload, string CNPJ, string ID_Empresa, string documentType)
@@ -114,8 +97,8 @@ namespace FormulárioPDFConverter.Controllers
                         EmailEnviado = false
                     };
 
-                    var queryOperacoes = new dbQueryData();
-                    queryOperacoes.InsertFilesLogs(uploadFile);
+                    var queryOperacoes = new OperacoesBusiness();
+                    queryOperacoes.InsertDadosFilesLogs(uploadFile);
 
                     TempData["AlertMessage"] = "Documento enviado com sucesso!";
                     return RedirectToAction("UploadFile", "Home", new { ID_Empresa });

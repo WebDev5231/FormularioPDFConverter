@@ -35,11 +35,31 @@ namespace FormulárioPDFConverter.Business
         public List<UploadFiles> GetDocumentosPorId(string idEmpresa)
         {
             var dbQueryData = new dbQueryData();
-
             var getDocumentos = dbQueryData.GetDocumentosById(idEmpresa);
 
             return getDocumentos;
         }
 
+        public Municipio VerificarMunicipioPorId(int IdCidade)
+        {
+            var dbQueryData = new dbQueryData();
+            return dbQueryData.GetMunicipioById(IdCidade);
+        }
+
+        public string BuscarPorteEmpresaPorId(int porteempresa)
+        {
+            var dbQueryData = new dbQueryData();
+            var getPorteEmpresa = dbQueryData.GetPorteEmpresa(porteempresa);
+
+            return getPorteEmpresa;
+        }
+
+        public bool InsertDadosFilesLogs(UploadFiles uploadFileData)
+        {
+            var dbQueryData = new dbQueryData();
+            dbQueryData.InsertFilesLogs(uploadFileData);
+
+            return true;
+        }
     }
 }

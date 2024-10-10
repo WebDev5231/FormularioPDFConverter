@@ -64,7 +64,7 @@ namespace FormulárioPDFConverter.Data
             }
         }
 
-        public void InsertFilesLogs(UploadFiles uploadFileData)
+        public bool InsertFilesLogs(UploadFiles uploadFileData)
         {
             using (var connection = new SqlConnection(connectionString))
             {
@@ -73,6 +73,7 @@ namespace FormulárioPDFConverter.Data
 
                 connection.Execute(sql, uploadFileData);
             }
+            return true;
         }
 
         public string GetPorteEmpresa(int porteempresa)
