@@ -10,7 +10,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Globalization;
 using FormulárioPDFConverter.Data;
-using FormulárioPDFConverter.Data.Models;
+using FormulárioPDFConverter.Model;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -26,7 +26,7 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "access denied");
             }
 
-            var queryOperacoes = new dbQuery();
+            var queryOperacoes = new dbQueryData();
 
             var cadastro = queryOperacoes.GetCadastroById(idEmpresa);
 
@@ -49,14 +49,14 @@ namespace FormulárioPDFConverter.Controllers
             return View(cadastro);
         }
 
-        public ActionResult Ficha(Cadastro model)
+        public ActionResult Ficha(CadastroViewModel model)
         {
             return View(model);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FichaIncricao(Cadastro model)
+        public ActionResult FichaIncricao(CadastroViewModel model)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace FormulárioPDFConverter.Controllers
                 Session["ID_Empresa"] = ID_Empresa;
             }
 
-            var queryOperacoes = new dbQuery();
+            var queryOperacoes = new dbQueryData();
 
             var dados = queryOperacoes.GetCadastroById(ID_Empresa);
             TempData["dados"] = dados;
@@ -105,7 +105,7 @@ namespace FormulárioPDFConverter.Controllers
 
                     fileUpload.SaveAs(path);
 
-                    var uploadFile = new UploadFilesData
+                    var uploadFile = new UploadFiles
                     {
                         CNPJ = cnpjFormatado,
                         ID_Empresa = ID_Empresa,
@@ -114,7 +114,7 @@ namespace FormulárioPDFConverter.Controllers
                         EmailEnviado = false
                     };
 
-                    var queryOperacoes = new dbQuery();
+                    var queryOperacoes = new dbQueryData();
                     queryOperacoes.InsertFilesLogs(uploadFile);
 
                     TempData["AlertMessage"] = "Documento enviado com sucesso!";

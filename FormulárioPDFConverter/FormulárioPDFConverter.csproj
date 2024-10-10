@@ -130,13 +130,12 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\GenerateMD5Controller.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="EmailService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Cadastro.cs" />
+    <Compile Include="Models\CadastroViewModel.cs" />
     <Compile Include="Models\DocumentosViewModel.cs" />
-    <Compile Include="Models\UploadFiles.cs" />
+    <Compile Include="Models\UploadFilesViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -303,9 +302,17 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormulárioPDFConverter.Business\FormulárioPDFConverter.Business.csproj">
+      <Project>{5EAFCA30-C188-4D08-8B21-17FFB73523F4}</Project>
+      <Name>FormulárioPDFConverter.Business</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormulárioPDFConverter.Data\FormulárioPDFConverter.Data.csproj">
-      <Project>{a7097afb-014c-48ea-b0dd-4f548a6598c8}</Project>
+      <Project>{67E4E561-92BB-4758-9816-9B0409EF4B20}</Project>
       <Name>FormulárioPDFConverter.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FormulárioPDFConverter.Model\FormulárioPDFConverter.Model.csproj">
+      <Project>{31AE7EF6-C4EF-41A0-8AB9-2D326A96910F}</Project>
+      <Name>FormulárioPDFConverter.Model</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

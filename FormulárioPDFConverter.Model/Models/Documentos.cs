@@ -1,12 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace FormulárioPDFConverter.Data.Models
+namespace FormulárioPDFConverter.Model.Models
 {
-    public class DocumentosData
+    public class Documentos
     {
         public string CNPJ { get; set; }
         public string Nome { get; set; }

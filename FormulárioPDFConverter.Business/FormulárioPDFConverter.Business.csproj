@@ -7,16 +7,16 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{67E4E561-92BB-4758-9816-9B0409EF4B20}</ProjectGuid>
+    <ProjectGuid>{5EAFCA30-C188-4D08-8B21-17FFB73523F4}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FormulárioPDFConverter.Data</RootNamespace>
-    <AssemblyName>FormulárioPDFConverter.Data</AssemblyName>
+    <RootNamespace>FormulárioPDFConverter.Business</RootNamespace>
+    <AssemblyName>FormulárioPDFConverter.Business</AssemblyName>
     <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
-    <IISExpressSSLPort>44334</IISExpressSSLPort>
+    <IISExpressSSLPort>44344</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -43,9 +43,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Dapper, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Dapper.2.1.35\lib\net461\Dapper.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
@@ -73,7 +70,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="dbQueryData.cs" />
+    <Compile Include="EmailServiceBusiness.cs" />
+    <Compile Include="OperacoesBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +84,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\FormulárioPDFConverter.Data\FormulárioPDFConverter.Data.csproj">
+      <Project>{67E4E561-92BB-4758-9816-9B0409EF4B20}</Project>
+      <Name>FormulárioPDFConverter.Data</Name>
+    </ProjectReference>
     <ProjectReference Include="..\FormulárioPDFConverter.Model\FormulárioPDFConverter.Model.csproj">
       <Project>{31AE7EF6-C4EF-41A0-8AB9-2D326A96910F}</Project>
       <Name>FormulárioPDFConverter.Model</Name>
@@ -104,9 +106,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52428</DevelopmentServerPort>
+          <DevelopmentServerPort>52404</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>https://localhost:44334/</IISUrl>
+          <IISUrl>https://localhost:44344/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

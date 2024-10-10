@@ -1,5 +1,6 @@
 ﻿using Dapper;
-using FormulárioPDFConverter.Data.Models;
+using FormulárioPDFConverter.Model;
+using FormulárioPDFConverter.Model.Models;
 using System;
 using System.Collections.Generic;
 using System.Configuration;
@@ -8,7 +9,7 @@ using System.Linq;
 
 namespace FormulárioPDFConverter.Data
 {
-    public class dbQuery
+    public class dbQueryData
     {
         private string connectionString = ConfigurationManager.ConnectionStrings["formPDFConverter"].ConnectionString;
 
@@ -24,44 +25,46 @@ namespace FormulárioPDFConverter.Data
             }
         }
 
-        public void UpdateEmailEnviado(string idEmpresa)
+        public bool UpdateEmailEnviado(string idEmpresa)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 string query = "UPDATE UploadFiles SET EmailEnviado = 1 WHERE ID_Empresa = @ID_Empresa";
 
-                connection.Execute(query, new { ID_Empresa = idEmpresa });
+                int rowsAffected = connection.Execute(query, new { ID_Empresa = idEmpresa });
+
+                return rowsAffected > 0;
             }
         }
 
-        public CadastroData GetCadastroById(string idEmpresa)
+        public Cadastro GetCadastroById(string idEmpresa)
         {
             using (var connection = new SqlConnection(connectionString))
             {
-                string sql = @"SELECT * FROM cadastro Where ID_Empresa = @ID_Empresa";
-                return connection.QueryFirstOrDefault<CadastroData>(sql, new { ID_Empresa = idEmpresa });
+                string sql = @"SELECT * FROM cadastro WHERE ID_Empresa = @ID_Empresa";
+                return connection.QueryFirstOrDefault<Cadastro>(sql, new { ID_Empresa = idEmpresa });
             }
         }
 
-        public List<UploadFilesData> GetDocumentosById(string idEmpresa)
+        public List<UploadFiles> GetDocumentosById(string idEmpresa)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 string sql = @"SELECT * FROM UploadFiles WHERE ID_Empresa = @ID_Empresa";
-                return connection.Query<UploadFilesData>(sql, new { ID_Empresa = idEmpresa }).ToList();
+                return connection.Query<UploadFiles>(sql, new { ID_Empresa = idEmpresa }).ToList();
             }
         }
 
-        public MunicipioData GetMunicipioById(int ID_Cidade)
+        public Municipio GetMunicipioById(int ID_Cidade)
         {
             using (var connection = new SqlConnection(connectionString))
             {
                 string sql = @"SELECT * FROM municipios WHERE munCOD = @ID_Cidade";
-                return connection.QueryFirstOrDefault<MunicipioData>(sql, new { ID_Cidade = ID_Cidade });
+                return connection.QueryFirstOrDefault<Municipio>(sql, new { ID_Cidade = ID_Cidade });
             }
         }
 
-        public void InsertFilesLogs(UploadFilesData uploadFileData)
+        public void InsertFilesLogs(UploadFiles uploadFileData)
         {
             using (var connection = new SqlConnection(connectionString))
             {

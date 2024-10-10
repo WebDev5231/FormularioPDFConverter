@@ -2,15 +2,15 @@
 using System.IO;
 using System.Net;
 using System.Net.Mail;
-using FormulárioPDFConverter.Data;
+using System.Text;
 
-namespace FormulárioPDFConverter
+namespace FormulárioPDFConverter.Business
 {
-    public class EmailService
+    public class EmailServiceBusiness
     {
         private readonly SmtpClient _smtpClient;
 
-        public EmailService()
+        public EmailServiceBusiness()
         {
             // Desabilitar a validação do certificado SSL
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
@@ -24,8 +24,8 @@ namespace FormulárioPDFConverter
 
         public string EnviarEmail(string cnpj, string nomeEmpresa, string idEmpresa)
         {
-            var dbQuery = new dbQuery();
-            bool verificarEmailJaEnviado = dbQuery.VerificarEmailJaEnviado(idEmpresa);
+            var dbOperacoes = new OperacoesBusiness();
+            bool verificarEmailJaEnviado = dbOperacoes.VerificarEnvioDeEmail(idEmpresa);
 
             if (!verificarEmailJaEnviado)
             {
@@ -58,8 +58,8 @@ namespace FormulárioPDFConverter
 
                 _smtpClient.Send(mailMessage);
 
-                var atualizaEmailEnviado = new dbQuery();
-                atualizaEmailEnviado.UpdateEmailEnviado(idEmpresa);
+                var atualizaEmailEnviado = new OperacoesBusiness();
+                atualizaEmailEnviado.AtualizarEmailEnviado(idEmpresa);
 
                 return "E-mail enviado com sucesso!";
             }
@@ -72,13 +72,20 @@ namespace FormulárioPDFConverter
 
         private string MontarMensagem(string cnpj, string nomeEmpresa)
         {
-            return $@"
-                <h3>Prezados responsáveis,</h3>
-                <p>Informamos que a empresa <strong>{nomeEmpresa}</strong>, CNPJ <strong>{cnpj}</strong>, concluiu o envio dos documentos requeridos.</p>
-                <p>Por favor, verifique no sistema de gestão de documentos.</p>
-                <br/>
-                <p><b>Atenciosamente,</b></p>
-                <p><b>Sistema - Gestão de Documentos.</b></p>";
+            var sb = new StringBuilder();
+
+            sb.Append("<h3>Prezados responsáveis,</h3>");
+            sb.Append("<p>Informamos que a empresa <strong>");
+            sb.Append(nomeEmpresa);
+            sb.Append("</strong>, CNPJ <strong>");
+            sb.Append(cnpj);
+            sb.Append("</strong>, concluiu o envio dos documentos requeridos.</p>");
+            sb.Append("<p>Por favor, verifique no sistema de gestão de documentos.</p>");
+            sb.Append("<br/>");
+            sb.Append("<p><b>Atenciosamente,</b></p>");
+            sb.Append("<p><b>Sistema - Gestão de Documentos.</b></p>");
+
+            return sb.ToString();
         }
 
         private void LogErro(Exception ex)

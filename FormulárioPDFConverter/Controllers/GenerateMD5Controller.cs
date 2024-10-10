@@ -1,15 +1,13 @@
 ﻿using FormulárioPDFConverter.Models;
-using System;
-using System.Configuration;
-using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Text;
 using System.Web.Mvc;
-using Dapper;
 using System.Collections.Generic;
 using System.Linq;
 using FormulárioPDFConverter.Data;
-using FormulárioPDFConverter.Data.Models;
+using FormulárioPDFConverter.Model;
+using FormulárioPDFConverter.Model.Models;
+using FormulárioPDFConverter.Business;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -45,12 +43,12 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "ID_Empresa ou Hash é necessário");
             }
 
-            var dados = TempData["dados"] as FormulárioPDFConverter.Data.Models.CadastroData;
+            var dados = TempData["dados"] as FormulárioPDFConverter.Model.Models.Cadastro;
 
-            var getValue = new dbQuery();
+            var getCadastro = new OperacoesBusiness();
             if (dados == null)
             {
-                dados = getValue.GetCadastroById(ID_Empresa);
+                dados = getCadastro.VerificarCadastroPorId(ID_Empresa);
             }
 
             ViewBag.MD5Hash = hash;
@@ -63,7 +61,7 @@ namespace FormulárioPDFConverter.Controllers
                 "Procuracao-"
             };
 
-            var documentosData = getValue.GetDocumentosById(ID_Empresa);
+            var documentosData = getCadastro.GetDocumentosPorId(ID_Empresa);
 
             var documentos = documentosData.Select(MapToUploadFiles).ToList();
 
@@ -76,7 +74,7 @@ namespace FormulárioPDFConverter.Controllers
 
             if (documentos.Count >= 4)
             {
-                var sendMail = new EmailService();
+                var sendMail = new EmailServiceBusiness();
                 sendMail.EnviarEmail(dados.CNPJ, dados.Razao, ID_Empresa);
             }
 
@@ -99,25 +97,25 @@ namespace FormulárioPDFConverter.Controllers
             }
         }
 
-        private UploadFiles MapToUploadFiles(UploadFilesData data)
+        private UploadFilesViewModel MapToUploadFiles(UploadFiles dados)
         {
-            return new UploadFiles
+            return new UploadFilesViewModel
             {
-                ID = data.ID,
-                NomeArquivo = data.NomeArquivo,
-                ID_Empresa = data.ID_Empresa,
-                DataInclusao = data.DataInclusao,
-                EmailEnviado = data.EmailEnviado,
+                ID = dados.ID,
+                NomeArquivo = dados.NomeArquivo,
+                ID_Empresa = dados.ID_Empresa,
+                DataInclusao = dados.DataInclusao,
+                EmailEnviado = dados.EmailEnviado,
             };
         }
 
-        private Cadastro MapToCadastro(CadastroData data)
+        private CadastroViewModel MapToCadastro(Cadastro dados)
         {
-            return new Cadastro
+            return new CadastroViewModel
             {
-                CNPJ = data.CNPJ,
-                Razao = data.Razao,
-                ID_Empresa = data.ID_Empresa,
+                CNPJ = dados.CNPJ,
+                Razao = dados.Razao,
+                ID_Empresa = dados.ID_Empresa,
             };
         }
     }

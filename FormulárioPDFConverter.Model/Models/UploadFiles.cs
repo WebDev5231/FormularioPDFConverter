@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Web;
 
-namespace FormulárioPDFConverter.Data.Models
+namespace FormulárioPDFConverter.Model
 {
     [Table("UploadFiles")]
-    public class UploadFilesData
+    public class UploadFiles
     {
         [Key]
         public int ID { get; set; }
