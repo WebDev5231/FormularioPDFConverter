@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using System.Web.Services.Description;
+using FormulárioPDFConverter.Model.Models;
 
 namespace FormulárioPDFConverter.Business
 {
@@ -45,8 +46,16 @@ namespace FormulárioPDFConverter.Business
         private string Enviar(string cnpj, string nomeEmpresa, string Email, string idEmpresa, string mensagem, string fileName)
         {
             try
-            {   //string destinatarios = Email;
-                string[] destinatarios = { "vinicius@anfir.org.br", "marcio@anfir.org.br" };
+            {
+                var dbOperacoes = new OperacoesBusiness();
+                var getEmailEmpresa = dbOperacoes.VerificarCadastroPorId(idEmpresa);
+
+                //var emailsArray = getEmailEmpresa.Email.Split(';')
+                //                        .Select(email => email.Trim())
+                //                        .Where(email => !string.IsNullOrEmpty(email))
+                //                        .ToList();
+
+                string[] emailsArray = { "vinicius@anfir.org.br" };
 
                 string assunto = "Teste - Gestão de Documentos - ANFIR";
                 string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagem, fileName);
@@ -59,7 +68,8 @@ namespace FormulárioPDFConverter.Business
                     IsBodyHtml = true
                 };
 
-                foreach (var destinatario in destinatarios)
+                // Adiciona cada e-mail ao MailMessage
+                foreach (var destinatario in emailsArray)
                 {
                     mailMessage.To.Add(destinatario);
                 }
@@ -79,18 +89,12 @@ namespace FormulárioPDFConverter.Business
         {
             var sb = new StringBuilder();
 
-            sb.Append("<p>Prezado responsável pela empresa <b>");
-            sb.Append(nomeEmpresa);
-            sb.Append("</strong>, CNPJ: <strong>");
-            sb.Append(cnpj);
-            sb.Append(".</b></p>");
-            sb.Append("<p><b>Arquivo: " + fileName + "</b></p>");
-            sb.Append("<p>");
-            sb.Append(mensagem);
-            sb.Append("</p>");
-            sb.Append("<br/>");
-            sb.Append("<p><b>Atenciosamente,</b></p>");
-            sb.Append("<p><b>Sistema - Gestão de Documentos.</b></p>");
+            sb.AppendLine($"<p>Prezado responsável pela empresa <b>{nomeEmpresa}</b>, CNPJ: <strong>{cnpj}</strong>.</p>");
+            sb.AppendLine($"<p><b>Arquivo: {fileName}</b></p>");
+            sb.AppendLine($"<p>{mensagem}</p>");
+            sb.AppendLine("<br/>");
+            sb.AppendLine("<p><b>Atenciosamente,</b></p>");
+            sb.AppendLine("<p><b>Sistema - Gestão de Documentos.</b></p>");
 
             return sb.ToString();
         }
