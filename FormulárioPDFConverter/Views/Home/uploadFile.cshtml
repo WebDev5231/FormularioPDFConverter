@@ -1,12 +1,12 @@
 ﻿@model FormulárioPDFConverter.Models.DocumentosViewModel
 
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
-    <meta name="viewport" content="width=device-width" />
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     @{
-        ViewBag.Title = "Enviar Documentos:";
+        ViewBag.Title = "Enviar Documentos";
         var ID_Empresa = Session["ID_Empresa"];
     }
     <style>
@@ -67,8 +67,9 @@
                         <option value="Procuracao-">Procuracao</option>
                     </select>
 
-                    @Html.Hidden("CNPJ", Model.DadosCadastro.CNPJ)
-                    @Html.Hidden("ID_Empresa", Model.DadosCadastro.ID_Empresa)
+                    @Html.Hidden("CNPJ", Model?.DadosCadastro?.CNPJ ?? "")
+
+                    @Html.Hidden("ID_Empresa", Model?.DadosCadastro?.ID_Empresa ?? "")
 
                     <br />
                     <br />
@@ -80,14 +81,13 @@
         </div>
     </div>
 
-
     <div class="container mt-4">
         <div class="card" style="border-radius: 1.25rem;">
             <div class="card-header" style="background-color: #00000099;">
                 <h3 class="mb-0" style="color: #fcfcff"><b>Documentos:</b></h3>
             </div>
             <div class="card-body">
-                @if (Model.TiposDocumentos.Any())
+                @if (Model?.TiposDocumentos != null && Model.TiposDocumentos.Any())
                 {
                     <table class="table table-bordered">
                         <thead>
@@ -96,6 +96,7 @@
                                 <th>Documentos</th>
                                 <th>Data de Inclusão</th>
                                 <th>Status</th>
+                                <th>Ações</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -111,38 +112,93 @@
                                     <td>
                                         @if (documentoEnviado != null)
                                         {
-                                            <a href="@documentoLink" target="_blank"><b>@tipoDocumento.Replace("-", " ")</b></a> }
+                                            <a href="@documentoLink" target="_blank"><b>@tipoDocumento.Replace("-", " ")</b></a>
+                                        }
                                         else
                                         {
-                                            <b>@tipoDocumento.Replace("-", " ")</b>}
+                                            <b>@tipoDocumento.Replace("-", " ")</b>
+                                        }
                                     </td>
                                     <td>
                                         @if (documentoEnviado != null && documentoEnviado.DataInclusao != null)
                                         {
-                                            <span class="enviadaoBlue"><b>@documentoEnviado.DataInclusao.ToString("dd/MM/yyyy HH:mm:ss")</b></span><br /> }
+                                            <span class="enviadaoBlue"><b>@documentoEnviado.DataInclusao.ToString("dd/MM/yyyy HH:mm:ss")</b></span><br />
+                                        }
                                         else
                                         {
-                                            <span class="pendenteRed"><b>Pendente</b></span>}
+                                            <span class="pendenteRed"><b>Pendente</b></span>
+                                        }
                                     </td>
                                     <td>
                                         @if (documentoEnviado != null)
                                         {
-                                            <span class="enviadaoBlue"><b>Enviado</b></span> }
+                                            <span class="enviadaoBlue"><b>Enviado</b></span>
+                                        }
                                         else
                                         {
-                                            <span class="pendenteRed"><b>Pendente</b></span>}
+                                            <span class="pendenteRed"><b>Pendente</b></span>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-warning btn-revision" data-document-name="@tipoDocumento.Replace("-", " ")">Revisão</button>
                                     </td>
                                 </tr>
                             }
                         </tbody>
-                    </table> }
+                    </table>
+                }
                 else
                 {
-                    <p class="pendenteRed"><b>Nenhum Tipo de Documento Encontrado</b></p>
+                    <p class="pendenteRed"><b>Todos os documentos estão pendentes</b></p>
                 }
             </div>
         </div>
     </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="revisionModal" tabindex="-1" role="dialog" aria-labelledby="revisionModalLabel" aria-hidden="true" style="font-family:Arial;">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content rounded" style="border-radius: 15px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="revisionModalLabel"><b>Revisão de Documento</b></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    @using (Html.BeginForm("EnviarRevisao", "UploadFile", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+
+                        <div class="form-group">
+                            <label for="fileName"><b>Nome do Documento:</b></label>
+                            <input type="text" class="form-control col-md-12" id="fileName" name="fileName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="predefinedMessage"><b>Mensagem Pré-Moldada:</b></label>
+                            <select class="form-control col-md-12" id="predefinedMessage" name="predefinedMessage">
+                                <option value="">Selecione uma mensagem</option>
+                                <option value="Por favor, reenvie o documento com as correções necessárias.">Por favor, reenvie o documento com as correções necessárias.</option>
+                                <option value="O documento enviado não está legível. Favor enviar novamente.">O documento enviado não está legível. Favor enviar novamente.</option>
+                                <option value="O arquivo enviado não está no formato correto.">O arquivo enviado não está no formato correto.</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="customMessage"><b>Mensagem Personalizada:</b></label>
+                            <textarea class="form-control col-md-12" id="customMessage" name="customMessage" rows="3"></textarea>
+                        </div>
+                        @Html.Hidden("ID_Empresa", (string)Session["ID_Empresa"])
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                            <button type="submit" class="btn btn-primary">Enviar Revisão</button>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @if (TempData["AlertMessage"] != null)
     {
@@ -150,6 +206,30 @@
             alert('@TempData["AlertMessage"]');
         </script>
     }
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('.btn-revision').on('click', function () {
+                var documentName = $(this).data('document-name');
+                $('#fileName').val(documentName);
+                $('#documentName').val(documentName);
+                $('#revisionModal').modal('show');
+            });
+
+            $('#sendRevision').on('click', function () {
+                var predefinedMessage = $('#predefinedMessage').val();
+                var customMessage = $('#customMessage').val();
+                var documentName = $('#documentName').val();
+
+                if (!predefinedMessage && !customMessage) {
+                    alert("Por favor, selecione uma mensagem ou digite uma mensagem personalizada.");
+                    return;
+                }
+
+                $('#revisionModal').modal('hide');
+            });
+        });
+    </script>
 
 </body>
 </html>

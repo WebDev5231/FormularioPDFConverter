@@ -5,6 +5,7 @@ using System.Web.Mvc;
 using FormulárioPDFConverter.Model;
 using FormulárioPDFConverter.Model.Models;
 using FormulárioPDFConverter.Business;
+using System;
 
 namespace FormulárioPDFConverter.Controllers
 {
@@ -12,13 +13,13 @@ namespace FormulárioPDFConverter.Controllers
     {
         private readonly MD5ServiceBusiness _md5ServiceBusiness;
         private readonly OperacoesBusiness _operacoesBusiness;
-        private readonly EmailServiceBusiness _emailServiceBusiness;
+        private readonly EmailServiceRepresentantesBusiness _emailServiceBusiness;
 
         public UploadFileController()
         {
             _md5ServiceBusiness = new MD5ServiceBusiness();
             _operacoesBusiness = new OperacoesBusiness();
-            _emailServiceBusiness = new EmailServiceBusiness();
+            _emailServiceBusiness = new EmailServiceRepresentantesBusiness();
         }
 
         // POST: UploadFile/uploadFile
@@ -105,5 +106,23 @@ namespace FormulárioPDFConverter.Controllers
                 ID_Empresa = dados.ID_Empresa,
             };
         }
+
+        // POST: Revisão / Envio de E-mail notificação
+        [HttpPost]
+        public ActionResult EnviarRevisao(string ID_Empresa, string fileName, string predefinedMessage, string customMessage)
+        {
+            string mensagem = !string.IsNullOrEmpty(predefinedMessage) ? predefinedMessage : customMessage;
+
+            var envioEmailEmpresas = new EmailServiceEmpresasBusiness();
+            string resultado = envioEmailEmpresas.EnviarEmailEmpresasRevisao(ID_Empresa, mensagem, fileName);
+
+            if (!string.IsNullOrEmpty(resultado))
+            {
+                TempData["AlertMessage"] = resultado;
+            }
+
+            return View("~/Views/Home/uploadFile.cshtml");
+        }
+
     }
 }

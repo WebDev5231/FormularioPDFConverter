@@ -70,7 +70,8 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EmailServiceBusiness.cs" />
+    <Compile Include="EmailServiceEmpresasBusiness.cs" />
+    <Compile Include="EmailServiceRepresentantesBusiness.cs" />
     <Compile Include="Interfaces\IMD5ServiceBusiness.cs" />
     <Compile Include="MD5ServiceBusiness.cs" />
     <Compile Include="OperacoesBusiness.cs" />

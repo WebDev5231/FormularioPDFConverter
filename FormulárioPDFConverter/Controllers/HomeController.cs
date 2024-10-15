@@ -13,7 +13,6 @@ namespace FormulárioPDFConverter.Controllers
 {
     public class HomeController : Controller
     {
-
         public ActionResult FichaIncricao()
         {
             var idEmpresa = (string)Session["ID_Empresa"]?.ToString();
@@ -23,28 +22,33 @@ namespace FormulárioPDFConverter.Controllers
                 return new HttpStatusCodeResult(400, "access denied");
             }
 
-
             var queryOperacoes = new OperacoesBusiness();
 
             var cadastro = queryOperacoes.VerificarCadastroPorId(idEmpresa);
-
             var cidade = queryOperacoes.VerificarMunicipioPorId(cadastro.ID_Cidade);
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
-            cadastro.PortesEmpresa = new List<SelectListItem>
+            var model = new CadastroViewModel
             {
-            new SelectListItem { Text = "Micro", Value = "micro" },
-            new SelectListItem { Text = "Pequena", Value = "pequena" },
-            new SelectListItem { Text = "Média", Value = "media" },
-            new SelectListItem { Text = "Grande", Value = "grande" },
-            new SelectListItem {Text = "", Value="" }
+                ID_Empresa = cadastro.ID_Empresa,
+                Razao = cadastro.Razao,
+                CNPJ = cadastro.CNPJ,
+                Cidade = cadastro.Cidade,
+                Estado = cadastro.Estado,
+                PorteEmpresaSelecionado = queryOperacoes.BuscarPorteEmpresaPorId(cadastro.porteempresa),
+                PortesEmpresa = new List<SelectListItem>
+                {
+                    new SelectListItem { Text = "Micro", Value = "micro" },
+                    new SelectListItem { Text = "Pequena", Value = "pequena" },
+                    new SelectListItem { Text = "Média", Value = "media" },
+                    new SelectListItem { Text = "Grande", Value = "grande" },
+                    new SelectListItem { Text = "", Value = "" }
+                },
+                dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"))
             };
-            cadastro.PorteEmpresaSelecionado = queryOperacoes.BuscarPorteEmpresaPorId(cadastro.porteempresa);
 
-            cadastro.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
-
-            return View(cadastro);
+            return View(model);
         }
 
         public ActionResult Ficha(CadastroViewModel model)
