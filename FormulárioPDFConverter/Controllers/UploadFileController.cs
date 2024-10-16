@@ -111,10 +111,11 @@ namespace FormulárioPDFConverter.Controllers
         [HttpPost]
         public ActionResult EnviarRevisao(string ID_Empresa, string fileName, string predefinedMessage, string customMessage)
         {
-            string mensagem = !string.IsNullOrEmpty(predefinedMessage) ? predefinedMessage : customMessage;
+            string mensagemCorpo = predefinedMessage;
+            string mensagemObservacao = customMessage;
 
             var envioEmailEmpresas = new EmailServiceEmpresasBusiness();
-            string resultado = envioEmailEmpresas.EnviarEmailEmpresasRevisao(ID_Empresa, mensagem, fileName);
+            string resultado = envioEmailEmpresas.EnviarEmailEmpresasRevisao(ID_Empresa, mensagemCorpo, mensagemObservacao, fileName);
 
             if (!string.IsNullOrEmpty(resultado))
             {
@@ -123,6 +124,5 @@ namespace FormulárioPDFConverter.Controllers
 
             return View("~/Views/Home/uploadFile.cshtml");
         }
-
     }
 }

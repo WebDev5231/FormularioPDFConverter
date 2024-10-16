@@ -178,13 +178,14 @@
                             <label for="predefinedMessage"><b>Mensagem Pré-Moldada:</b></label>
                             <select class="form-control col-md-12" id="predefinedMessage" name="predefinedMessage">
                                 <option value="">Selecione uma mensagem</option>
-                                <option value="Por favor, reenvie o documento com as correções necessárias.">Por favor, reenvie o documento com as correções necessárias.</option>
-                                <option value="O documento enviado não está legível. Favor enviar novamente.">O documento enviado não está legível. Favor enviar novamente.</option>
-                                <option value="O arquivo enviado não está no formato correto.">O arquivo enviado não está no formato correto.</option>
+                                <option value="Ficha de Inscrição não assinada e/ou não encontrada.">Ficha de Inscrição não assinada e/ou não encontrada.</option>
+                                <option value="Procuração não encontrada e/ou não assinada ou não reconhecida a firma da assinatura.">Procuração não encontrada e/ou não assinada ou não reconhecida a firma da assinatura.</option>
+                                <option value="Cartão CNPJ não encontrado e/ou CNAE não está em conformidade com o Inciso I do Art. 3º da Portaria Senatran Nº. 452 de 2024.">Cartão CNPJ não encontrado e/ou CNAE não está em conformidade com o Inciso I do Art. 3º da Portaria Senatran Nº. 452 de 2024.</option>
+                                <option value="Contrato Social não encontrado e/ou não está em conformidade com o Inciso II do Art. 3º da Portaria Senatran Nº. 452 de 2024.">Contrato Social não encontrado e/ou não está em conformidade com o Inciso II do Art. 3º da Portaria Senatran Nº. 452 de 2024.</option>
                             </select>
                         </div>
                         <div class="form-group">
-                            <label for="customMessage"><b>Mensagem Personalizada:</b></label>
+                            <label for="customMessage"><b>Observação:</b></label>
                             <textarea class="form-control col-md-12" id="customMessage" name="customMessage" rows="3"></textarea>
                         </div>
                         @Html.Hidden("ID_Empresa", (string)Session["ID_Empresa"])

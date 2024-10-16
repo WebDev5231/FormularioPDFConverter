@@ -26,14 +26,14 @@ namespace FormulárioPDFConverter.Business
             };
         }
 
-        public string EnviarEmailEmpresasRevisao(string idEmpresa, string mensagem, string fileName)
+        public string EnviarEmailEmpresasRevisao(string idEmpresa, string mensagemCorpo, string mensagemObservacao, string fileName)
         {
             var dbOperacoes = new OperacoesBusiness();
             var dadosEmpresa = dbOperacoes.VerificarCadastroPorId(idEmpresa);
 
             try
             {
-                return Enviar(dadosEmpresa.CNPJ, dadosEmpresa.Razao, dadosEmpresa.Email, idEmpresa, mensagem, fileName);
+                return Enviar(dadosEmpresa.CNPJ, dadosEmpresa.Razao, dadosEmpresa.Email, idEmpresa, mensagemCorpo, mensagemObservacao, fileName);
             }
             catch (Exception ex)
             {
@@ -43,7 +43,7 @@ namespace FormulárioPDFConverter.Business
             return string.Empty;
         }
 
-        private string Enviar(string cnpj, string nomeEmpresa, string Email, string idEmpresa, string mensagem, string fileName)
+        private string Enviar(string cnpj, string nomeEmpresa, string Email, string idEmpresa, string mensagemCorpo, string mensagemObservacao, string fileName)
         {
             try
             {
@@ -55,10 +55,10 @@ namespace FormulárioPDFConverter.Business
                 //                        .Where(email => !string.IsNullOrEmpty(email))
                 //                        .ToList();
 
-                string[] emailsArray = { "vinicius@anfir.org.br" };
+                string[] emailsArray = { "vinicius@anfir.org.br", "marcio@anfir.org.br" };
 
                 string assunto = "Teste - Gestão de Documentos - ANFIR";
-                string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagem, fileName);
+                string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagemCorpo, mensagemObservacao, fileName);
 
                 MailMessage mailMessage = new MailMessage
                 {
@@ -68,7 +68,6 @@ namespace FormulárioPDFConverter.Business
                     IsBodyHtml = true
                 };
 
-                // Adiciona cada e-mail ao MailMessage
                 foreach (var destinatario in emailsArray)
                 {
                     mailMessage.To.Add(destinatario);
@@ -85,13 +84,25 @@ namespace FormulárioPDFConverter.Business
             }
         }
 
-        private string MontarMensagem(string cnpj, string nomeEmpresa, string mensagem, string fileName)
+        private string MontarMensagem(string cnpj, string nomeEmpresa, string mensagemCorpo, string mensagemObservacao, string fileName)
         {
             var sb = new StringBuilder();
 
             sb.AppendLine($"<p>Prezado responsável pela empresa <b>{nomeEmpresa}</b>, CNPJ: <strong>{cnpj}</strong>.</p>");
-            sb.AppendLine($"<p><b>Arquivo: {fileName}</b></p>");
-            sb.AppendLine($"<p>{mensagem}</p>");
+            sb.AppendLine("<p>Informamos que o documento enviado não está em conformidade para a inclusão no Sistema do Credencia/GOV.</p>");
+            sb.AppendLine($"<p><b>Documento:</b> {fileName}</p>");
+
+            if (!string.IsNullOrEmpty(mensagemCorpo))
+            {
+                sb.AppendLine($"<p><b>Motivo:</b> {mensagemCorpo}</p>");
+            }
+
+            if (!string.IsNullOrEmpty(mensagemObservacao))
+            {
+                var formattedObservacao = mensagemObservacao.Replace("\n", "<br/>");
+                sb.AppendLine($"<p><b>Obs.:</b> {formattedObservacao}</p>");
+            }
+
             sb.AppendLine("<br/>");
             sb.AppendLine("<p><b>Atenciosamente,</b></p>");
             sb.AppendLine("<p><b>Sistema - Gestão de Documentos.</b></p>");
