@@ -50,14 +50,14 @@ namespace FormulárioPDFConverter.Business
                 var dbOperacoes = new OperacoesBusiness();
                 var getEmailEmpresa = dbOperacoes.VerificarCadastroPorId(idEmpresa);
 
-                //var emailsArray = getEmailEmpresa.Email.Split(';')
-                //                        .Select(email => email.Trim())
-                //                        .Where(email => !string.IsNullOrEmpty(email))
-                //                        .ToList();
+                var emailsArray = getEmailEmpresa.Email.Split(';')
+                                        .Select(email => email.Trim())
+                                        .Where(email => !string.IsNullOrEmpty(email))
+                                        .ToList();
 
-                string[] emailsArray = { "vinicius@anfir.org.br", "marcio@anfir.org.br" };
+                string[] copiaEmails = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
 
-                string assunto = "Teste - Gestão de Documentos - ANFIR";
+                string assunto = "Revisão de Documentos - ANFIR";
                 string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagemCorpo, mensagemObservacao, fileName);
 
                 MailMessage mailMessage = new MailMessage
@@ -71,6 +71,11 @@ namespace FormulárioPDFConverter.Business
                 foreach (var destinatario in emailsArray)
                 {
                     mailMessage.To.Add(destinatario);
+                }
+
+                foreach (var ccEmail in copiaEmails)
+                {
+                    mailMessage.CC.Add(ccEmail);
                 }
 
                 _smtpClient.Send(mailMessage);

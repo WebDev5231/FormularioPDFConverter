@@ -36,6 +36,15 @@ namespace FormulárioPDFConverter.Controllers
                 CNPJ = cadastro.CNPJ,
                 Cidade = cadastro.Cidade,
                 Estado = cadastro.Estado,
+                Endereco = cadastro.Endereco,
+                Cep = cadastro.Cep,
+                Bairro = cadastro.Bairro,
+                Site = cadastro.Site,
+                Email = cadastro.Email,
+                DataFundacao = cadastro.DataFundacao,
+                Telefone = cadastro.Telefone,
+                InscricaoJuntaComercial = cadastro.InscricaoJuntaComercial,
+                Complemento = cadastro.Complemento,
                 PorteEmpresaSelecionado = queryOperacoes.BuscarPorteEmpresaPorId(cadastro.porteempresa),
                 PortesEmpresa = new List<SelectListItem>
                 {
