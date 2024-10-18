@@ -29,7 +29,7 @@ namespace FormulárioPDFConverter.Controllers
             cadastro.Cidade = cidade.munMUNICIP;
             cadastro.Estado = cidade.munEST;
 
-            var model = new CadastroViewModel
+            var viewModel = new CadastroViewModel
             {
                 ID_Empresa = cadastro.ID_Empresa,
                 Razao = cadastro.Razao,
@@ -57,23 +57,23 @@ namespace FormulárioPDFConverter.Controllers
                 dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"))
             };
 
-            return View(model);
+            return View(viewModel);
         }
 
-        public ActionResult Ficha(CadastroViewModel model)
+        public ActionResult Ficha(CadastroViewModel viewModel)
         {
-            return View(model);
+            return View(viewModel);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult FichaIncricao(CadastroViewModel model)
+        public ActionResult FichaIncricao(CadastroViewModel viewModel)
         {
             try
             {
-                model.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
+                viewModel.dataDeIngresso = DateTime.Now.ToString("dd/MM/yyyy", CultureInfo.CreateSpecificCulture("pt-BR"));
 
-                var report = new Rotativa.ActionAsPdf("Ficha", model);
+                var report = new Rotativa.ActionAsPdf("Ficha", viewModel);
 
                 return report;
             }
