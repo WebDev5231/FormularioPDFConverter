@@ -39,7 +39,7 @@ namespace FormulárioPDFConverter.Business
         {
             try
             {
-                string[] destinatarios = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
+                string[] destinatarios = { "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
                 string assunto = "Envio Completo dos Documentos";
                 string mensagem = MontarMensagem(cnpj, nomeEmpresa);
 

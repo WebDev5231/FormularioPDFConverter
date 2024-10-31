@@ -55,7 +55,7 @@ namespace FormulárioPDFConverter.Business
                                         .Where(email => !string.IsNullOrEmpty(email))
                                         .ToList();
 
-                string[] copiaEmails = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
+                string[] copiaEmails = { "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
 
                 string assunto = "Revisão de Documentos - ANFIR";
                 string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagemCorpo, mensagemObservacao, fileName);
