@@ -5,8 +5,7 @@ using System.Linq;
 using System.Net.Mail;
 using System.Net;
 using System.Text;
-using System.Web.Services.Description;
-using FormulárioPDFConverter.Model.Models;
+using FormulárioPDFConverter.Business.Utils;
 
 namespace FormulárioPDFConverter.Business
 {
@@ -16,7 +15,6 @@ namespace FormulárioPDFConverter.Business
 
         public EmailServiceEmpresasBusiness()
         {
-            // Desabilitar a validação do certificado SSL
             ServicePointManager.ServerCertificateValidationCallback += (sender, certificate, chain, sslPolicyErrors) => true;
 
             _smtpClient = new SmtpClient("smtp.anfir.org.br", 587)
@@ -92,6 +90,13 @@ namespace FormulárioPDFConverter.Business
         private string MontarMensagem(string cnpj, string nomeEmpresa, string mensagemCorpo, string mensagemObservacao, string fileName)
         {
             var sb = new StringBuilder();
+
+            if (mensagemObservacao.Length < 2)
+            {
+                string createMessage = UltilMessage.CreateMessageAuto(mensagemCorpo);
+
+                mensagemObservacao = createMessage;
+            }
 
             sb.AppendLine($"<p>Prezado responsável pela empresa <b>{nomeEmpresa}</b>, CNPJ: <strong>{cnpj}</strong>.</p>");
             sb.AppendLine("<p>Informamos que o documento enviado não está em conformidade para a inclusão no Sistema do Credencia/GOV.</p>");

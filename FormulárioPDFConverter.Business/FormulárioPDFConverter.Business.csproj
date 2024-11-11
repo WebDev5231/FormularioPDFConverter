@@ -76,6 +76,7 @@
     <Compile Include="MD5ServiceBusiness.cs" />
     <Compile Include="OperacoesBusiness.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utils\UltilMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
