@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Mail;
 using System.Text;
+using System.Web.Services.Description;
 
 namespace FormulárioPDFConverter.Business
 {
@@ -39,7 +40,7 @@ namespace FormulárioPDFConverter.Business
         {
             try
             {
-                string[] destinatarios = { "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
+                string[] destinatarios = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
                 string assunto = "Envio Completo dos Documentos";
                 string mensagem = MontarMensagem(cnpj, nomeEmpresa);
 
@@ -65,7 +66,7 @@ namespace FormulárioPDFConverter.Business
             }
             catch (Exception ex)
             {
-                LogErro(ex);
+                LogErro(ex, cnpj, nomeEmpresa);
                 return $"Erro ao enviar e-mail: {ex.Message}";
             }
         }
@@ -88,15 +89,28 @@ namespace FormulárioPDFConverter.Business
             return sb.ToString();
         }
 
-        private void LogErro(Exception ex)
+        private void LogErro(Exception ex, string cnpj, string nomeEmpresa)
         {
+            StringBuilder logContent = new StringBuilder();
+            logContent.AppendLine($"[Data] {DateTime.Now}");
+            logContent.AppendLine($"[CNPJ] {cnpj}");
+            logContent.AppendLine($"[Empresa] {nomeEmpresa}");
+            logContent.AppendLine($"[Mensagem de Erro] {ex.Message}");
+            logContent.AppendLine($"[StackTrace] {ex.StackTrace}");
+
+            if (ex.InnerException != null)
+            {
+                logContent.AppendLine($"[InnerException] {ex.InnerException.Message}");
+                logContent.AppendLine($"[InnerStackTrace] {ex.InnerException.StackTrace}");
+            }
+
+            logContent.AppendLine(new string('-', 50));
+
+            // Escrever no arquivo
             string caminhoArquivo = @"C:\inetpub\wwwroot\FormularioPDFConverter\Erro_Envio_EmailRepresentantes.txt";
             using (StreamWriter writer = new StreamWriter(caminhoArquivo, true))
             {
-                writer.WriteLine($"Data: {DateTime.Now}");
-                writer.WriteLine($"Mensagem de Erro: {ex.Message}");
-                writer.WriteLine($"StackTrace: {ex.StackTrace}");
-                writer.WriteLine(new string('-', 50));
+                writer.WriteLine(logContent.ToString());
             }
         }
     }

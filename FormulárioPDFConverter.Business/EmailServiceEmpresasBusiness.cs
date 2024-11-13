@@ -6,6 +6,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Text;
 using FormulárioPDFConverter.Business.Utils;
+using System.Net.NetworkInformation;
 
 namespace FormulárioPDFConverter.Business
 {
@@ -33,12 +34,16 @@ namespace FormulárioPDFConverter.Business
             {
                 return Enviar(dadosEmpresa.CNPJ, dadosEmpresa.Razao, dadosEmpresa.Email, idEmpresa, mensagemCorpo, mensagemObservacao, fileName);
             }
+            catch (SmtpException smtpEx)
+            {
+                LogErro($"Erro SMTP: {smtpEx.StatusCode} - {smtpEx.Message}", dadosEmpresa.Email, smtpEx);
+                return $"Erro ao enviar e-mail: {smtpEx.Message}";
+            }
             catch (Exception ex)
             {
-                LogErro(ex);
+                LogErro($"Erro geral: {ex.Message}", dadosEmpresa.Email, ex);
+                return $"Erro ao enviar e-mail: {ex.Message}";
             }
-
-            return string.Empty;
         }
 
         private string Enviar(string cnpj, string nomeEmpresa, string Email, string idEmpresa, string mensagemCorpo, string mensagemObservacao, string fileName)
@@ -53,7 +58,7 @@ namespace FormulárioPDFConverter.Business
                                         .Where(email => !string.IsNullOrEmpty(email))
                                         .ToList();
 
-                string[] copiaEmails = { "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
+                string[] copiaEmails = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
 
                 string assunto = "Revisão de Documentos - ANFIR";
                 string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagemCorpo, mensagemObservacao, fileName);
@@ -80,9 +85,14 @@ namespace FormulárioPDFConverter.Business
 
                 return "E-mail enviado com sucesso!";
             }
+            catch (SmtpException smtpEx)
+            {
+                LogErro($"Erro SMTP durante o envio: {smtpEx.StatusCode} - {smtpEx.Message}", Email, smtpEx);
+                return $"Erro ao enviar e-mail: {smtpEx.Message}";
+            }
             catch (Exception ex)
             {
-                LogErro(ex);
+                LogErro($"Erro geral durante o envio: {ex.Message}", Email, ex);
                 return $"Erro ao enviar e-mail: {ex.Message}";
             }
         }
@@ -94,43 +104,34 @@ namespace FormulárioPDFConverter.Business
             if (mensagemObservacao.Length < 2)
             {
                 string createMessage = UltilMessage.CreateMessageAuto(mensagemCorpo);
-
                 mensagemObservacao = createMessage;
             }
 
-            sb.AppendLine($"<p>Prezado responsável pela empresa <b>{nomeEmpresa}</b>, CNPJ: <strong>{cnpj}</strong>.</p>");
-            sb.AppendLine("<p>Informamos que o documento enviado não está em conformidade para a inclusão no Sistema do Credencia/GOV.</p>");
-            sb.AppendLine($"<p><b>Documento:</b> {fileName}</p>");
+            string createFileName = UltilMessage.CreateMessageFileNameAuto(fileName);
 
-            if (!string.IsNullOrEmpty(mensagemCorpo))
-            {
-                sb.AppendLine($"<p><b>Motivo:</b> {mensagemCorpo}</p>");
-            }
-
-            if (!string.IsNullOrEmpty(mensagemObservacao))
-            {
-                var formattedObservacao = mensagemObservacao.Replace("\n", "<br/>");
-                sb.AppendLine($"<p><b>Obs.:</b> {formattedObservacao}</p>");
-            }
-
-            sb.AppendLine("<br/>");
-            sb.AppendLine("<p><b>Atenciosamente,</b></p>");
-            sb.AppendLine("<p><b>Sistema - Gestão de Documentos.</b></p>");
+            sb.Append("<p><strong>CNPJ:</strong> ").Append(cnpj).Append("</p>");
+            sb.Append("<p><strong>Empresa:</strong> ").Append(nomeEmpresa).Append("</p>");
+            sb.Append("<p><strong>Mensagem:</strong></p>");
+            sb.Append("<p>").Append(mensagemCorpo).Append("</p>");
+            sb.Append("<p>").Append(mensagemObservacao).Append("</p>");
+            sb.Append("<p><strong>Arquivo:</strong> ").Append(createFileName).Append("</p>");
 
             return sb.ToString();
         }
 
-        private void LogErro(Exception ex)
+        private void LogErro(string mensagem, string email, Exception ex)
         {
             string caminhoArquivo = @"C:\inetpub\wwwroot\FormularioPDFConverter\Erro_Envio_EmailEmpresas.txt";
+
+            var sb = new StringBuilder();
+            sb.AppendLine($"[Erro] {DateTime.Now}: {mensagem}");
+            sb.AppendLine($"[E-mail da Empresa] {email}");
+            sb.AppendLine($"[StackTrace] {ex.StackTrace}");
+
             using (StreamWriter writer = new StreamWriter(caminhoArquivo, true))
             {
-                writer.WriteLine($"Data: {DateTime.Now}");
-                writer.WriteLine($"Mensagem de Erro Envio de Email Para as Empresas: {ex.Message}");
-                writer.WriteLine($"StackTrace: {ex.StackTrace}");
-                writer.WriteLine(new string('-', 50));
+                writer.Write(sb.ToString());
             }
         }
-
     }
 }

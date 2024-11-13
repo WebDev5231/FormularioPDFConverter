@@ -33,5 +33,31 @@ namespace FormulárioPDFConverter.Business.Utils
 
             return mensagemObservacaoAuto;
         }
+
+        public static string CreateMessageFileNameAuto(string fileName)
+        {
+            string fileNameCorreto;
+
+            switch (fileName)
+            {
+                case "Ficha de Inscricao":
+                    fileNameCorreto = "Ficha de Inscrição";
+                    break;
+                case "Procuracao":
+                    fileNameCorreto = "Procuração";
+                    break;
+                case "Cartao CNPJ":
+                    fileNameCorreto = "Cartão CNPJ ";
+                    break;
+                case "Contrato Social":
+                    fileNameCorreto = "Contrato Social";
+                    break;
+                default:
+                    fileNameCorreto = "Documento não encontrado";
+                    break;
+            }
+
+            return fileNameCorreto;
+        }
     }
 }
