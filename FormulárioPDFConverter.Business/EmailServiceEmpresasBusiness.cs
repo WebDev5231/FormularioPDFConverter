@@ -58,7 +58,7 @@ namespace FormulárioPDFConverter.Business
                                         .Where(email => !string.IsNullOrEmpty(email))
                                         .ToList();
 
-                string[] copiaEmails = { "vinicius@anfir.org.br", "marcio@anfir.org.br", "christian.hiraya@anfir.org.br", "rodrigo@anfir.org.br" };
+                string[] copiaEmails = { "vinicius@anfir.org.br" };
 
                 string assunto = "Revisão de Documentos - ANFIR";
                 string contexto = MontarMensagem(cnpj, nomeEmpresa, mensagemCorpo, mensagemObservacao, fileName);
@@ -103,18 +103,31 @@ namespace FormulárioPDFConverter.Business
 
             if (mensagemObservacao.Length < 2)
             {
-                string createMessage = UltilMessage.CreateMessageAuto(mensagemCorpo);
-                mensagemObservacao = createMessage;
+                string createMessageObs = UltilMessage.CreateMessageObsAuto(mensagemCorpo);
+                mensagemObservacao = createMessageObs;
             }
 
             string createFileName = UltilMessage.CreateMessageFileNameAuto(fileName);
+            fileName = createFileName;
 
-            sb.Append("<p><strong>CNPJ:</strong> ").Append(cnpj).Append("</p>");
-            sb.Append("<p><strong>Empresa:</strong> ").Append(nomeEmpresa).Append("</p>");
-            sb.Append("<p><strong>Mensagem:</strong></p>");
-            sb.Append("<p>").Append(mensagemCorpo).Append("</p>");
-            sb.Append("<p>").Append(mensagemObservacao).Append("</p>");
-            sb.Append("<p><strong>Arquivo:</strong> ").Append(createFileName).Append("</p>");
+            sb.AppendLine($"<p>Prezado responsável pela empresa <b>{nomeEmpresa}</b>, CNPJ: <strong>{cnpj}</strong>.</p>");
+            sb.AppendLine("<p>Informamos que o documento enviado não está em conformidade para a inclusão no Sistema do Credencia/GOV.</p>");
+            sb.AppendLine($"<p><b>Documento:</b> {fileName}</p>");
+
+            if (!string.IsNullOrEmpty(mensagemCorpo))
+            {
+                sb.AppendLine($"<p><b>Motivo:</b> {mensagemCorpo}</p>");
+            }
+
+            if (!string.IsNullOrEmpty(mensagemObservacao))
+            {
+                var formattedObservacao = mensagemObservacao.Replace("\n", "<br/>");
+                sb.AppendLine($"<p><b>Obs.:</b> {formattedObservacao}</p>");
+            }
+
+            sb.AppendLine("<br/>");
+            sb.AppendLine("<p><b>Atenciosamente,</b></p>");
+            sb.AppendLine("<p><b>Sistema - Gestão de Documentos.</b></p>");
 
             return sb.ToString();
         }

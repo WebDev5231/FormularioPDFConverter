@@ -4,7 +4,7 @@ namespace FormulárioPDFConverter.Business.Utils
 {
     public class UltilMessage
     {
-        public static string CreateMessageAuto(string mensagemCorpo)
+        public static string CreateMessageObsAuto(string mensagemCorpo)
         {
             string mensagemObservacaoAuto;
 
@@ -38,6 +38,8 @@ namespace FormulárioPDFConverter.Business.Utils
         {
             string fileNameCorreto;
 
+            fileName = fileName.Trim();
+
             switch (fileName)
             {
                 case "Ficha de Inscricao":
@@ -47,7 +49,7 @@ namespace FormulárioPDFConverter.Business.Utils
                     fileNameCorreto = "Procuração";
                     break;
                 case "Cartao CNPJ":
-                    fileNameCorreto = "Cartão CNPJ ";
+                    fileNameCorreto = "Cartão CNPJ";
                     break;
                 case "Contrato Social":
                     fileNameCorreto = "Contrato Social";
